@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bird Encyclopedia</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#13ec80",
+                        "primary-dark": "#0eb562",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102219",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a3829",
+                        "text-main": "#0d1b14",
+                        "text-muted": "#4c9a73",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        "2xl": "1rem",
+                        full: "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for horizontal sections */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main font-display antialiased overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col group/design-root">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Header -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 bg-surface-light/95 px-10 py-4 backdrop-blur-md dark:border-slate-800 dark:bg-surface-dark/95">
+<div class="flex items-center gap-4 text-text-main dark:text-white">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-3xl">flutter_dash</span>
+</div>
+<h2 class="text-text-main dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Bird Encyclopedia</h2>
+</div>
+<div class="hidden flex-1 justify-end gap-8 md:flex">
+<nav class="flex items-center gap-9">
+<a class="text-text-main dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-text-main dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Species</a>
+<a class="text-text-main dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Habitats</a>
+<a class="text-text-main dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Conservation</a>
+<a class="text-text-main dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">About Us</a>
+</nav>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-6 bg-primary text-text-main text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary-dark transition-colors">
+<span class="truncate">Donate</span>
+</button>
+</div>
+<!-- Mobile Menu Icon -->
+<button class="md:hidden text-text-main dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<main class="flex flex-col flex-1">
+<!-- Hero Section -->
+<div class="@container w-full">
+<div class="relative flex min-h-[520px] flex-col items-center justify-center gap-8 bg-cover bg-center bg-no-repeat p-8 text-center" data-alt="Lush green forest canopy with sunlight filtering through leaves" style='background-image: linear-gradient(rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuB9Gt7IRqBMx8mI-tTcpr3F2rSggHMzeYXce_hAE93QsqWViEU3kqH3FpjHI65OpkvTEOwtqB9u4CiN4LaxEAQbFh5JHNT0kCepbY0VTvhlM9mU8N693EO6eyarfW_TCOefSo-Tl84G3vbF0DzV6w88_qaiDk8uycH2-VzZ9FFmXIEPmw5CwBo4T12bMnlZMWEh2DUqlhY-WnNGKbzsT-n4IG34gEFLDHevOHZ6yXcLzsLCMk2KgR2bEpi7ChNzCS871ESW-F9vZrY");'>
+<div class="flex flex-col gap-4 max-w-[800px]">
+<h1 class="text-white text-5xl font-black leading-tight tracking-tight drop-shadow-lg @[480px]:text-6xl">
+                                Bird Encyclopedia
+                            </h1>
+<h2 class="text-gray-100 text-lg font-medium leading-relaxed drop-shadow-md @[480px]:text-xl">
+                                Discover the fascinating world of avian life, from the smallest hummingbird to the majestic eagle.
+                            </h2>
+</div>
+<!-- Search Bar -->
+<div class="w-full max-w-[600px]">
+<label class="flex h-14 w-full flex-col shadow-xl rounded-xl overflow-hidden transition-transform focus-within:scale-[1.02]">
+<div class="flex w-full flex-1 items-center bg-white dark:bg-surface-dark">
+<div class="flex h-full items-center justify-center pl-4 text-text-muted">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="h-full flex-1 border-0 bg-transparent px-4 text-text-main dark:text-white placeholder:text-text-muted focus:ring-0 text-base" placeholder="Search for a bird species, habitat, or region..."/>
+<button class="h-full bg-primary px-8 text-text-main font-bold hover:bg-primary-dark transition-colors">
+                                        Search
+                                    </button>
+</div>
+</label>
+</div>
+</div>
+</div>
+<div class="mx-auto w-full max-w-7xl px-6 py-12 md:px-10 md:py-16">
+<!-- What is a Bird Section -->
+<div class="flex flex-col gap-10 lg:flex-row lg:gap-16">
+<div class="flex flex-col gap-6 lg:w-1/2">
+<span class="text-primary font-bold uppercase tracking-wider text-sm">Introduction</span>
+<h2 class="text-text-main dark:text-white text-3xl font-extrabold leading-tight md:text-4xl">
+                                What Defines a Bird?
+                            </h2>
+<p class="text-text-main/80 dark:text-gray-300 text-lg leading-relaxed">
+                                Birds are warm-blooded vertebrates constituting the class Aves, characterized by feathers, toothless beaked jaws, the laying of hard-shelled eggs, a high metabolic rate, a four-chambered heart, and a strong yet lightweight skeleton.
+                            </p>
+<button class="mt-2 w-fit rounded-lg border-2 border-primary bg-transparent px-6 py-3 text-sm font-bold text-text-main dark:text-white hover:bg-primary hover:border-primary transition-all">
+                                Learn More About Anatomy
+                            </button>
+</div>
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:w-1/2">
+<!-- Feature Card 1 -->
+<div class="flex flex-col gap-3 rounded-xl bg-white dark:bg-surface-dark p-6 shadow-sm border border-slate-100 dark:border-slate-800 transition-hover hover:shadow-md">
+<div class="flex size-12 items-center justify-center rounded-full bg-primary/20 text-primary-dark dark:text-primary">
+<span class="material-symbols-outlined">flight</span>
+</div>
+<div>
+<h3 class="text-text-main dark:text-white text-lg font-bold">Feathers</h3>
+<p class="text-text-muted dark:text-gray-400 text-sm mt-1">Unique keratin structures essential for flight, insulation, and waterproofing.</p>
+</div>
+</div>
+<!-- Feature Card 2 -->
+<div class="flex flex-col gap-3 rounded-xl bg-white dark:bg-surface-dark p-6 shadow-sm border border-slate-100 dark:border-slate-800 transition-hover hover:shadow-md">
+<div class="flex size-12 items-center justify-center rounded-full bg-primary/20 text-primary-dark dark:text-primary">
+<span class="material-symbols-outlined">cruelty_free</span>
+</div>
+<div>
+<h3 class="text-text-main dark:text-white text-lg font-bold">Beaks</h3>
+<p class="text-text-muted dark:text-gray-400 text-sm mt-1">Highly adapted mandibles evolved for diverse feeding habits without teeth.</p>
+</div>
+</div>
+<!-- Feature Card 3 -->
+<div class="flex flex-col gap-3 rounded-xl bg-white dark:bg-surface-dark p-6 shadow-sm border border-slate-100 dark:border-slate-800 transition-hover hover:shadow-md">
+<div class="flex size-12 items-center justify-center rounded-full bg-primary/20 text-primary-dark dark:text-primary">
+<span class="material-symbols-outlined">egg</span>
+</div>
+<div>
+<h3 class="text-text-main dark:text-white text-lg font-bold">Hard-Shelled Eggs</h3>
+<p class="text-text-muted dark:text-gray-400 text-sm mt-1">Reproduction via amniotic eggs with calcified shells for protection.</p>
+</div>
+</div>
+<!-- Feature Card 4 -->
+<div class="flex flex-col gap-3 rounded-xl bg-white dark:bg-surface-dark p-6 shadow-sm border border-slate-100 dark:border-slate-800 transition-hover hover:shadow-md">
+<div class="flex size-12 items-center justify-center rounded-full bg-primary/20 text-primary-dark dark:text-primary">
+<span class="material-symbols-outlined">flight</span>
+</div>
+<div>
+<h3 class="text-text-main dark:text-white text-lg font-bold">Hollow Bones</h3>
+<p class="text-text-muted dark:text-gray-400 text-sm mt-1">Pneumatized skeletons that reduce weight while maintaining strength for flight.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Classification Overview -->
+<div class="mt-20">
+<div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+<div>
+<h2 class="text-text-main dark:text-white text-3xl font-bold">Classification Overview</h2>
+<p class="text-text-muted dark:text-gray-400 mt-2">Distribution of major bird orders by approximate species count.</p>
+</div>
+<div class="text-right">
+<p class="text-4xl font-black text-text-main dark:text-white">10,000+</p>
+<p class="text-sm font-medium text-primary">Known Species</p>
+</div>
+</div>
+<div class="w-full overflow-hidden rounded-2xl bg-white dark:bg-surface-dark p-6 shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="flex flex-col gap-6">
+<!-- Chart Item -->
+<div class="group">
+<div class="mb-2 flex justify-between text-sm font-bold text-text-main dark:text-white">
+<span>Passerines (Perching Birds)</span>
+<span class="text-text-muted">~60%</span>
+</div>
+<div class="h-4 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700">
+<div class="h-full rounded-full bg-primary" style="width: 60%"></div>
+</div>
+</div>
+<!-- Chart Item -->
+<div class="group">
+<div class="mb-2 flex justify-between text-sm font-bold text-text-main dark:text-white">
+<span>Apodiformes (Hummingbirds &amp; Swifts)</span>
+<span class="text-text-muted">~10%</span>
+</div>
+<div class="h-4 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700">
+<div class="h-full rounded-full bg-primary/80" style="width: 10%"></div>
+</div>
+</div>
+<!-- Chart Item -->
+<div class="group">
+<div class="mb-2 flex justify-between text-sm font-bold text-text-main dark:text-white">
+<span>Piciformes (Woodpeckers &amp; Toucans)</span>
+<span class="text-text-muted">~5%</span>
+</div>
+<div class="h-4 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700">
+<div class="h-full rounded-full bg-primary/60" style="width: 5%"></div>
+</div>
+</div>
+<!-- Chart Item -->
+<div class="group">
+<div class="mb-2 flex justify-between text-sm font-bold text-text-main dark:text-white">
+<span>Charadriiformes (Shorebirds)</span>
+<span class="text-text-muted">~4%</span>
+</div>
+<div class="h-4 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700">
+<div class="h-full rounded-full bg-primary/40" style="width: 4%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Featured Birds Slider -->
+<div class="mt-20">
+<div class="mb-8 flex items-center justify-between">
+<h2 class="text-text-main dark:text-white text-3xl font-bold">Featured Species</h2>
+<div class="flex gap-2">
+<button class="rounded-full border border-slate-200 bg-white p-2 text-text-main hover:bg-slate-50 dark:border-slate-700 dark:bg-surface-dark dark:text-white dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<button class="rounded-full border border-slate-200 bg-white p-2 text-text-main hover:bg-slate-50 dark:border-slate-700 dark:bg-surface-dark dark:text-white dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-6 hide-scrollbar">
+<!-- Bird Card 1 -->
+<div class="min-w-[300px] snap-center rounded-2xl bg-white dark:bg-surface-dark shadow-md overflow-hidden flex flex-col border border-slate-100 dark:border-slate-800 md:min-w-[340px]">
+<div class="relative h-48 w-full bg-gray-200" data-alt="Close up of a Harpy Eagle face with grey feathers" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBXshmGKvOi6wezLA0AF0ku9dcDsyiZRAXaPTqX9laINIV9JKgV9cy8PUoHU5KBLJ1YdjEXN1E_KcvSKBQim8eOcfRX4T8IsNiGwNsJ5nih8TvyZeQhMSrtx6PBUTZ-LYJBpR1LMYw7rCDhamDk1lLYa5xBCtdBIvOo6aUyqGTyTRbg03zDfMoGxmoJfU4gAq9GKL1XxZgLxtC6oXJQp0gQo9MA0WdPEpxzFh2QjJa7PC1tyZmq9GP-nxTceFnBaACg7vtd6scXByI'); background-size: cover; background-position: center;">
+<div class="absolute right-3 top-3 rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-800 shadow-sm border border-red-200">
+                                        Near Threatened
+                                    </div>
+</div>
+<div class="flex flex-1 flex-col p-5">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold text-text-main dark:text-white">Harpy Eagle</h3>
+<span class="material-symbols-outlined text-text-muted cursor-pointer hover:text-primary">favorite</span>
+</div>
+<p class="mt-1 text-sm text-text-muted italic">Harpia harpyja</p>
+<p class="mt-3 line-clamp-2 text-sm text-text-main/80 dark:text-gray-300">
+                                        A neotropical species of eagle. It is also called the American harpy eagle to distinguish it from the Papuan eagle.
+                                    </p>
+<div class="mt-4 flex items-center gap-2 text-xs text-text-muted font-medium">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Central &amp; South America</span>
+</div>
+</div>
+</div>
+<!-- Bird Card 2 -->
+<div class="min-w-[300px] snap-center rounded-2xl bg-white dark:bg-surface-dark shadow-md overflow-hidden flex flex-col border border-slate-100 dark:border-slate-800 md:min-w-[340px]">
+<div class="relative h-48 w-full bg-gray-200" data-alt="Colorful Kingfisher bird perched on a branch" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAKWlwfhZ32FzW6AIZC-t73s3a2gbUN0w786kuCkGKMyXmV2b9se1Pe8KXSkTvJSTJqzp1_TkHsSx3W9PmlsfNsgaBHBPSaXr9fQl7O6K9LNJizK7_SKeEWCi8KaF1rZ8RyHFpgNDPybkN4palYpImKKHERxrPGCLVFge7NHPlUoSxF5j4gP-jau-VPvxvQLrZC6k_ccW5U-lUDEvuc0ASpIzAEB7gsJy5EGduV96Xze2E-eZygh0JRAtHBkk_YJm4ZFnQdUHdOZNk'); background-size: cover; background-position: center;">
+<div class="absolute right-3 top-3 rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-800 shadow-sm border border-green-200">
+                                        Least Concern
+                                    </div>
+</div>
+<div class="flex flex-1 flex-col p-5">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold text-text-main dark:text-white">Common Kingfisher</h3>
+<span class="material-symbols-outlined text-text-muted cursor-pointer hover:text-primary">favorite</span>
+</div>
+<p class="mt-1 text-sm text-text-muted italic">Alcedo atthis</p>
+<p class="mt-3 line-clamp-2 text-sm text-text-main/80 dark:text-gray-300">
+                                        Also known as the Eurasian kingfisher and river kingfisher, is a small kingfisher with seven subspecies.
+                                    </p>
+<div class="mt-4 flex items-center gap-2 text-xs text-text-muted font-medium">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Europe, Asia, North Africa</span>
+</div>
+</div>
+</div>
+<!-- Bird Card 3 -->
+<div class="min-w-[300px] snap-center rounded-2xl bg-white dark:bg-surface-dark shadow-md overflow-hidden flex flex-col border border-slate-100 dark:border-slate-800 md:min-w-[340px]">
+<div class="relative h-48 w-full bg-gray-200" data-alt="Close up of a Peregrine Falcon looking sideways" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCErSaIHjSI6tacT_ydWAULiMA7eS-KZF5bj4ZBqeQH85lNULBwxay5J27L_0aUqW7XFjRvtmVBHWXkPWHs-fHEAakbRfQmGUKrx4ZMdIrj4y7nbFTCgrddRDOZh4TE21vtS_X6Id6E2rYsD_AKjDO4i8OG2BolDZhs8k7Cc_sf8fX0OdlltpVbccFqa0mQ0HvIX1XG3L0TODJGN3ct1VA_Qmdcjhcp4ZMVW0UzcFOVQf3NOmQ-DsQ-xrSA2xSHUR1MhMXTRAF7Pag'); background-size: cover; background-position: center;">
+<div class="absolute right-3 top-3 rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-800 shadow-sm border border-green-200">
+                                        Least Concern
+                                    </div>
+</div>
+<div class="flex flex-1 flex-col p-5">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold text-text-main dark:text-white">Peregrine Falcon</h3>
+<span class="material-symbols-outlined text-text-muted cursor-pointer hover:text-primary">favorite</span>
+</div>
+<p class="mt-1 text-sm text-text-muted italic">Falco peregrinus</p>
+<p class="mt-3 line-clamp-2 text-sm text-text-main/80 dark:text-gray-300">
+                                        Renowned for its speed, reaching over 320 km/h (200 mph) during its characteristic hunting stoop.
+                                    </p>
+<div class="mt-4 flex items-center gap-2 text-xs text-text-muted font-medium">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Cosmopolitan</span>
+</div>
+</div>
+</div>
+<!-- Bird Card 4 -->
+<div class="min-w-[300px] snap-center rounded-2xl bg-white dark:bg-surface-dark shadow-md overflow-hidden flex flex-col border border-slate-100 dark:border-slate-800 md:min-w-[340px]">
+<div class="relative h-48 w-full bg-gray-200" data-alt="Blue and yellow macaw parrot" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCQtZATXBaC-k8INsV21Pj3zVo2lDrwiwDSl7_SbsTHjNGe3krEKwCmH1ZFAXL9TAw0OiRCUZXDclkHbVbM2YKzEtsnPIotbBJVbXltsSAz9EXG1WVQeOYem4npZHDcHlqCU5mrBnlN98P-YMiegdoE8IfOwUsRZjQMvpRyRHlPw3EW0lOnrwkPJVyU_o50A5PFmIAY22VAtSaux6F4nvbsJSZgBPD1ygJLNteN12e2gwi_zXYJh19hHX4s1FqQEGwqZ20famdZ960'); background-size: cover; background-position: center;">
+<div class="absolute right-3 top-3 rounded-full bg-yellow-100 px-3 py-1 text-xs font-bold text-yellow-800 shadow-sm border border-yellow-200">
+                                        Vulnerable
+                                    </div>
+</div>
+<div class="flex flex-1 flex-col p-5">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold text-text-main dark:text-white">Blue-and-yellow Macaw</h3>
+<span class="material-symbols-outlined text-text-muted cursor-pointer hover:text-primary">favorite</span>
+</div>
+<p class="mt-1 text-sm text-text-muted italic">Ara ararauna</p>
+<p class="mt-3 line-clamp-2 text-sm text-text-main/80 dark:text-gray-300">
+                                        A large South American parrot with mostly blue top parts and light orange underparts.
+                                    </p>
+<div class="mt-4 flex items-center gap-2 text-xs text-text-muted font-medium">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>South America</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Habitats Grid -->
+<div class="mt-20">
+<div class="mb-8 flex flex-col gap-2">
+<span class="text-primary font-bold uppercase tracking-wider text-sm">Explore by Environment</span>
+<h2 class="text-text-main dark:text-white text-3xl font-bold">Diverse Habitats</h2>
+</div>
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+<!-- Habitat Card 1 -->
+<a class="group relative block h-64 overflow-hidden rounded-xl bg-gray-900" href="#">
+<div class="absolute inset-0 h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110 opacity-80" data-alt="Misty dense green forest with sunlight" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDzQJgXKrAS8EbsHU4NDHGT-P5k_4M4SzSL1XGUzCs77as0vG2HtSfuo_jDCqB05r9NnzFlK8vKzBMZ_O-9Jtyi0zdekOLZtYQ-HcxYed5job_P3dvvKUSZqgKnvXRsAsCcVsJKCiKrCCldt-UB6fJXDPOGdnSgUaH7cF-83jRnJYXceAC-tHpQb5NVnTI8h6tlZ2frgd1GXC4QxNgcFiXG362GnVg1aa0zSwRn1qqY85-rR9MhLzEXIdqepbjC9o3u2vEUBSVQOnY');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 p-6">
+<h3 class="text-2xl font-bold text-white">Forests</h3>
+<p class="mt-2 text-sm text-gray-200 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                        Home to 80% of terrestrial bird species, offering complex vertical structures.
+                                    </p>
+</div>
+</a>
+<!-- Habitat Card 2 -->
+<a class="group relative block h-64 overflow-hidden rounded-xl bg-gray-900" href="#">
+<div class="absolute inset-0 h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110 opacity-80" data-alt="Wide serene wetlands with tall grasses and water" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDihLHhfQVeCcalNJaa1v1zkpL3u5muyJeOUZG4mkTD0gZ7DzRMlCFG6XYG_34VXHIFPKNkzdnKIDju33775sVX06u_UqEp35SthXEuMO1xIVo_jI0lK-Bxdq4Z6beO0m_rLKSirbWMD2f3Bh0LI9TuNkDMRFu63UOeMlqFG1bZjue9lrrf-1w_hlvhmNmf8H01fhCEfl3uvZyn-xR4c4pRavS3wmEK06IkXV-SujBFO-iE1HrO3pFTBjv1P5cTcQrrcR-bksGI1mg');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 p-6">
+<h3 class="text-2xl font-bold text-white">Wetlands</h3>
+<p class="mt-2 text-sm text-gray-200 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                        Critical stopover sites for migration and breeding grounds for waterfowl.
+                                    </p>
+</div>
+</a>
+<!-- Habitat Card 3 -->
+<a class="group relative block h-64 overflow-hidden rounded-xl bg-gray-900" href="#">
+<div class="absolute inset-0 h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110 opacity-80" data-alt="Vast open grassland savanna under blue sky" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBd4x4JHQLIUTCYkxVDVf7rYig5-iNfsEKf0BZCmIua79qWowWYjZjphU5MC-CGAzJwWhLlZZ8vlAYo21Vv0D05LkKG8aX5K8q7ibjJTSalnzjjoM9wu-j_ph0C1PhghLfIBDuuFElCncOw2v6wL1DNnIvbBAHT92NUmhhQw7VeG7BBqUhrjRO__iRFbQerEk1P8m8BguouFgGl5_2S7NFL6pXGEUDck5Q5qDCGNNXuTINvpojrD6elNq0cruBfIyCLeUY1bMPDdKc');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 p-6">
+<h3 class="text-2xl font-bold text-white">Grasslands</h3>
+<p class="mt-2 text-sm text-gray-200 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                        Open environments hosting ground-nesting birds and soaring raptors.
+                                    </p>
+</div>
+</a>
+<!-- Habitat Card 4 -->
+<a class="group relative block h-64 overflow-hidden rounded-xl bg-gray-900" href="#">
+<div class="absolute inset-0 h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110 opacity-80" data-alt="Snowy mountain peaks and rocky terrain" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCWLj-354rkl5q0-OgxM0Xs3CDZO0b4_6xZqUADg0PaUacKW6oI6BH4llLUewZUXeJYlVS5fKHhVoHv3SjMO1YLDt07lBe9XxM9VHbmAGeklRX8sdZsHnUsOMx6TWjLyBo2s_e0j6tIhTU07Upv1E3h6OX42mwwuM09u3v--P9fS0VypooQRexYu1P3_t_uIUeQnFFyX_xZqKush8FEDDIWlPVBK4r75X4hvnCI49WLQPPC8azb_ufLNiqB6NLyEUZ0VqbzzVfzuqY');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 p-6">
+<h3 class="text-2xl font-bold text-white">Tundra &amp; Alpine</h3>
+<p class="mt-2 text-sm text-gray-200 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                        Harsh climates where only the most resilient species thrive.
+                                    </p>
+</div>
+</a>
+<!-- Habitat Card 5 -->
+<a class="group relative block h-64 overflow-hidden rounded-xl bg-gray-900" href="#">
+<div class="absolute inset-0 h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110 opacity-80" data-alt="Coastal rocky shore with ocean waves" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCo_MRrftPZtQwHmx77QlAUchK4drLwRoagO5Z4NgX-lGl7wzOPlqnBFk38EDupv6tDUCkJf094KPEgbzRgm-TBe1rmDHXErxMFt0kwlSNdYBOTPGPofPQzHTBWkhg0MwfklALwe-sYlTLkm0Y3bN4BAh8FhFvjoysiNuA7zcokzewVHbWy8elsuxFEIXyEVnNof6ktgvzGryktBppMECuMz4KSfMUbIhK0DPOQ8V7acaUS2tYqW4cM-UcwnrKYAXjmvRUijaJ5JWs');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 p-6">
+<h3 class="text-2xl font-bold text-white">Coastlines</h3>
+<p class="mt-2 text-sm text-gray-200 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                        The meeting point of land and sea, abundant in marine food sources.
+                                    </p>
+</div>
+</a>
+<!-- Habitat Card 6 -->
+<a class="group relative block h-64 overflow-hidden rounded-xl bg-gray-900" href="#">
+<div class="absolute inset-0 h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110 opacity-80" data-alt="Urban city park with buildings in background" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCViT0akGFBa0wShVDLZiIWaImO2keVHZew3IBntGQYZDSl6dVzXjUCBnlosQkt0xe7LW-Ca-VMIipxdxtszgc3mkBAi27a64GtLrnt37xIKWGzBTP9MLcIgyxuzvfPdT_xx-iq-4P_e7P_NR-0u7ePzTE132-c38L7gCEkSY4xmRqt3ZBF7vZt5rq0KDboLuNk_0bcL-ep3shegGfc0SmpqETIFDlg_hJ17DabYrf5hFKNt0FFRru32Yy01FqxJiyH1JRu42t8KUE');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+<div class="absolute bottom-0 p-6">
+<h3 class="text-2xl font-bold text-white">Urban</h3>
+<p class="mt-2 text-sm text-gray-200 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                        Cities and suburbs where adaptable species coexist with humans.
+                                    </p>
+</div>
+</a>
+</div>
+</div>
+<!-- Newsletter Section -->
+<div class="mt-20 rounded-3xl bg-surface-dark px-6 py-12 text-center md:px-12 md:py-16">
+<div class="mx-auto max-w-2xl">
+<span class="material-symbols-outlined mb-4 text-5xl text-primary">mail</span>
+<h2 class="text-3xl font-bold text-white md:text-4xl">Join Our Flock</h2>
+<p class="mt-4 text-lg text-gray-300">
+                                Subscribe for weekly bird facts, conservation updates, and photography tips delivered straight to your inbox.
+                            </p>
+<form class="mt-8 flex flex-col gap-3 sm:flex-row">
+<input class="flex-1 rounded-lg border-0 bg-white/10 px-5 py-3 text-white placeholder:text-gray-400 focus:ring-2 focus:ring-primary" placeholder="Enter your email address" type="email"/>
+<button class="rounded-lg bg-primary px-8 py-3 font-bold text-text-main hover:bg-primary-dark transition-colors" type="button">
+                                    Subscribe
+                                </button>
+</form>
+<p class="mt-4 text-xs text-gray-500">We respect your privacy. Unsubscribe at any time.</p>
+</div>
+</div>
+</div>
+</main>
+<footer class="mt-auto border-t border-slate-200 bg-surface-light py-10 dark:border-slate-800 dark:bg-surface-dark">
+<div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-10 text-center md:flex-row md:text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">flutter_dash</span>
+<span class="font-bold text-text-main dark:text-white">Bird Encyclopedia</span>
+</div>
+<div class="flex gap-6 text-sm text-text-muted">
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+<a class="hover:text-primary" href="#">Terms of Service</a>
+<a class="hover:text-primary" href="#">Contact</a>
+</div>
+<div class="text-sm text-text-main/60 dark:text-gray-500">
+                        © 2023 Bird Encyclopedia. All rights reserved.
+                    </div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

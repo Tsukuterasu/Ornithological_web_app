@@ -1,0 +1,67 @@
+CREATE TABLE taxonomy (
+    taxonomy_id VARCHAR(36) PRIMARY KEY,
+    taxonomy_kingdom VARCHAR(80),
+    taxonomy_phylum VARCHAR(80),
+    taxonomy_class VARCHAR(80),
+    taxonomy_order VARCHAR(80),
+    taxonomy_suborder VARCHAR(80),
+    taxonomy_family VARCHAR(80),
+    taxonomy_genus VARCHAR(80)
+);
+
+CREATE TABLE author (
+    author_id VARCHAR(36) PRIMARY KEY,
+    author_name VARCHAR(120) NOT NULL,
+    author_email VARCHAR(120),
+    author_role VARCHAR(120)
+);
+
+CREATE TABLE species (
+    species_id VARCHAR(36) PRIMARY KEY,
+    common_name VARCHAR(120) NOT NULL,
+    scientific_name VARCHAR(120),
+    conservation_status VARCHAR(120),
+    population_estimate INTEGER,
+    year_of_discovery DATE,
+    summary CLOB,
+    created_at DATE DEFAULT CURRENT_DATE NOT NULL,
+    taxonomy_id VARCHAR(36),
+    FOREIGN KEY (taxonomy_id) REFERENCES taxonomy(taxonomy_id)
+);
+
+CREATE TABLE country (
+    country_id VARCHAR(36) PRIMARY KEY,
+    country_name VARCHAR(120) NOT NULL,
+    continent_name VARCHAR(120),
+    country_loc CLOB
+);
+
+CREATE TABLE image (
+    image_id VARCHAR(36) PRIMARY KEY,
+    image_url VARCHAR(500),
+    image_alt_text VARCHAR(255),
+    created_at DATE DEFAULT CURRENT_DATE NOT NULL,
+    author_id VARCHAR(36),
+    species_id VARCHAR(36) NOT NULL,
+    FOREIGN KEY (author_id) REFERENCES author(author_id),
+    FOREIGN KEY (species_id) REFERENCES species(species_id)
+);
+
+CREATE TABLE distribution (
+    distribution_id VARCHAR(36) PRIMARY KEY,
+    species_id VARCHAR(36) NOT NULL,
+    country_id VARCHAR(36) NOT NULL,
+    population_estimate INTEGER,
+    FOREIGN KEY (species_id) REFERENCES species(species_id),
+    FOREIGN KEY (country_id) REFERENCES country(country_id)
+);
+
+CREATE TABLE modification (
+    modif_id VARCHAR(36) PRIMARY KEY,
+    author_id VARCHAR(36),
+    species_id VARCHAR(36) NOT NULL,
+    modif_date DATE DEFAULT CURRENT_DATE NOT NULL,
+    modif_fields CLOB,
+    FOREIGN KEY (author_id) REFERENCES author(author_id),
+    FOREIGN KEY (species_id) REFERENCES species(species_id)
+);

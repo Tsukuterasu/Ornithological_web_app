@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Species Identification | NatureID</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ecc8",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#10221f",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 px-6 py-4 lg:px-20 bg-white dark:bg-background-dark/50 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-slate-900 dark:text-primary">
+<div class="size-8 flex items-center justify-center bg-primary rounded-lg text-slate-900">
+<span class="material-symbols-outlined font-bold">nest_eco_leaf</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-[-0.015em]">NatureID</h2>
+</div>
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Encyclopedia</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">My Observations</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Map</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">About</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-4 items-center">
+<label class="hidden sm:flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-slate-500 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg" data-icon="search">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-slate-100 dark:bg-slate-800 focus:ring-2 focus:ring-primary rounded-r-lg text-slate-900 dark:text-slate-100 placeholder:text-slate-400 text-sm font-normal pl-2" placeholder="Search species..." value=""/>
+</div>
+</label>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-primary text-slate-900 text-sm font-bold transition-transform hover:scale-105 active:scale-95">
+<span class="truncate">Sign In</span>
+</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile avatar close up" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCsZ6aCt6X6G1YlQ73-g-J1OArJZ8hEB7sINH3i9UgDagMsHuOWDMlQj4Y3w3iidr-FFLiSqL7maaiGoykC5mfASSOoDvM9otbe7ssd3qVCtpqxERbzFUl_4uSJo4AUM5q11afYeY14FjvSn7qTXx_k7hPHe-zBuE-djqhAIZF55PbVx1fGGS46JqX1Y_SFGCtB7PjU8HgNg1DJcMKRDow716-pL-EliToPsz8_d5Q4FuI69aSfpbIMNpZ5uxnCbJq-6ceBFF3-WYc");'></div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-8 px-6 lg:px-20">
+<div class="layout-content-container flex flex-col max-w-[960px] flex-1 gap-8">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2">
+<a class="text-primary text-sm font-medium hover:underline" href="#">Home</a>
+<span class="material-symbols-outlined text-slate-400 text-sm">chevron_right</span>
+<span class="text-slate-600 dark:text-slate-400 text-sm font-medium">AI Species Identification</span>
+</div>
+<!-- Hero Section -->
+<div class="flex flex-col gap-3">
+<h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Identify Birds with AI</h1>
+<p class="text-slate-600 dark:text-slate-400 text-lg font-normal leading-normal max-w-2xl">
+                            Our advanced neural networks can identify over 10,000 bird species from a single photo. Simply upload an image or use your camera to get started.
+                        </p>
+</div>
+<!-- Upload Zone -->
+<div class="flex flex-col gap-6">
+<div class="flex flex-col items-center gap-8 rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 dark:bg-primary/10 px-6 py-20 transition-all hover:border-primary/60 hover:bg-primary/10">
+<div class="flex flex-col items-center gap-4 text-center">
+<div class="size-16 rounded-full bg-primary/20 flex items-center justify-center text-primary mb-2">
+<span class="material-symbols-outlined text-4xl">cloud_upload</span>
+</div>
+<div>
+<p class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">Drag and drop your bird photo here</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal mt-2">Supports JPG, PNG, and HEIC files. Max size 10MB.</p>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 items-center">
+<button class="flex min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-6 bg-primary text-slate-900 text-base font-bold transition-all hover:shadow-lg hover:shadow-primary/20">
+<span class="material-symbols-outlined mr-2">upload_file</span>
+<span class="truncate">Select File</span>
+</button>
+<span class="text-slate-400 font-medium text-sm">or</span>
+<button class="flex min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-base font-bold transition-all hover:bg-slate-50 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined mr-2">photo_camera</span>
+<span class="truncate">Capture Photo</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Results Section -->
+<div class="flex flex-col gap-6 pt-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center justify-between">
+<h2 class="text-slate-900 dark:text-white text-2xl font-bold tracking-tight">Detection Results</h2>
+<span class="inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs font-medium text-slate-600 dark:text-slate-400">
+<span class="size-2 rounded-full bg-slate-400 mr-2"></span>
+                                Waiting for upload
+                            </span>
+</div>
+<!-- Results Placeholder / Example Card -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 opacity-60">
+<!-- Example Card 1 (Ghost State) -->
+<div class="flex flex-col bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="h-48 bg-slate-200 dark:bg-slate-700 relative overflow-hidden">
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl text-slate-400">image</span>
+</div>
+<div class="absolute top-4 right-4 bg-primary px-3 py-1 rounded-full text-slate-900 text-xs font-bold">
+                                        98% Match
+                                    </div>
+</div>
+<div class="p-6 flex flex-col gap-4">
+<div>
+<h3 class="text-slate-900 dark:text-white text-xl font-bold">Species Name</h3>
+<p class="text-slate-500 dark:text-slate-400 italic text-sm">Scientific name will appear here</p>
+</div>
+<p class="text-slate-600 dark:text-slate-400 text-sm line-clamp-2">
+                                        After processing, a detailed description of the detected species will be shown here, including habitat and behavior.
+                                    </p>
+<button class="flex items-center justify-center w-full py-3 px-4 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-white font-bold text-sm">
+                                        View Full Profile
+                                    </button>
+</div>
+</div>
+<!-- Example Card 2 (Empty Information State) -->
+<div class="flex items-center justify-center border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl p-8 bg-slate-50/50 dark:bg-slate-900/50">
+<div class="text-center max-w-[280px]">
+<p class="text-slate-400 text-sm font-medium">Secondary matches and detailed confidence levels will appear in this area once an image is analyzed.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Identifications -->
+<div class="flex flex-col gap-4 pt-4">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">Community Live Feed</h3>
+<div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4">
+<div class="group cursor-pointer">
+<div class="aspect-square rounded-xl overflow-hidden mb-2 relative">
+<img alt="Kingfisher" class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="Colorful kingfisher bird perched on a branch" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOt7mGnEhh9uIZOKHm8qDrVBwGDfzM0X3FvT5xrfcYbAoksb-pggqWHeMtt-DobqcWvPPIAWwv21GPuvmEUJhqfdUhcm1cYx5zuveLUwywaz_Hm4e6AArd5owGoiDA7AKPEYwE3WPyEbjDZYjS-ZapxWipRg4dtlfM-z6GPeGSu6UMHLk1JP-FZ3ROIERiZPJ7D5tFjN42rpRvbVBW6Vecfsm-UNS8mlXMzW2E6rf_67LY76DbbvCPYofxkQtLHKoRsMT_RXBPf3A"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+<span class="text-white text-[10px] font-bold">2 mins ago</span>
+</div>
+</div>
+<p class="text-slate-900 dark:text-slate-100 text-xs font-bold truncate">Common Kingfisher</p>
+<p class="text-slate-500 text-[10px]">Identified by AI</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-square rounded-xl overflow-hidden mb-2 relative">
+<img alt="Sparrow" class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="Small sparrow resting on a weathered fence post" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3SpRKi1hXJLkz-yixIdmHAPWuBoDfQS2hHAUidrDrAVHBGVB92HT8NJm5kDA46ZlYehbxBGq9WEfAFFbFJsICGQcjD-xe2idfgJM1HSP-zOfV6LoTD2_yn8KXjbDNKDkJyHevcXJ6xuuvhJl85j30FRXB6WRFwOlLuu-FNK9fT_tVztBRKzVYrkHTOuZMd5vkdkPRxVzH9p3E_7yMgnuhZ0VFz18uR93uU6378gyL51Az2cBocdOghwooQrLDdQ4b8Yb-6tEaVe0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+<span class="text-white text-[10px] font-bold">15 mins ago</span>
+</div>
+</div>
+<p class="text-slate-900 dark:text-slate-100 text-xs font-bold truncate">House Sparrow</p>
+<p class="text-slate-500 text-[10px]">Identified by AI</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-square rounded-xl overflow-hidden mb-2 relative">
+<img alt="Swan" class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="White swan swimming in calm blue water" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI1D6HERRYIxsU3OY2W7_iLLlbCGKuEmq52Y0PhX7KZEmN11PDfwm2SscuFe35a9usEHsp5J0J-3vX6bgCocoHrWlXQai5nrR8-ukTJV3HJnHueE-cs-vzlNFKuODCK0S4PqNwelzFOaotJ4xF2Pkf20RF76JVSGFTAeI5DRcKtLvlI0xVjISpOqA5GQSlwbtrf6W9BD-xyQ4pjfgRePmAe5Iu2GWtOS1G2Eu7K82Rv_SS0QVgIB7dQB2G-PNCqBZZ6qufXqpMoHs"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+<span class="text-white text-[10px] font-bold">1 hour ago</span>
+</div>
+</div>
+<p class="text-slate-900 dark:text-slate-100 text-xs font-bold truncate">Mute Swan</p>
+<p class="text-slate-500 text-[10px]">Identified by AI</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-square rounded-xl overflow-hidden mb-2 relative">
+<img alt="Parrot" class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="Vibrant green parrot on a tropical leaf" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARtv9e0oRcmlp5OEzAZ9_sPfDBuMugTqqRYF7qWEblU5a-6a5KQIOIuTnOT9B5L_9xy_r_K9SNsCBlpDecRZqE7x7DOIWM9iqyuyEHk5UzqqvR-KkdYIEDIf-mVx_tBOupaKTJfF3FKp1X6X7fsh70aiTajIuAt76swSdlbwHNWnOOiFMEdwCBtL0nh4aHRC9_1QyLZavYoODJ1xmIRYIl9a-kLVtIQfiSnhr3HcivyGAU8uLTtUTjsXL4xNv1x2K89g8Bzy5sAb0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+<span class="text-white text-[10px] font-bold">3 hours ago</span>
+</div>
+</div>
+<p class="text-slate-900 dark:text-slate-100 text-xs font-bold truncate">Green Parrot</p>
+<p class="text-slate-500 text-[10px]">Identified by AI</p>
+</div>
+<div class="group cursor-pointer hidden lg:block">
+<div class="aspect-square rounded-xl overflow-hidden mb-2 relative">
+<img alt="Cardinal" class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="Red cardinal bird in snowy winter background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJjlhAizXFEmZWeZ8n7JsGXEwha6wYhOIWamCtEmfxceIHCKkmldXYF2Ie-bpb-uogVaMk4K6lV5DNhyjvFTgUYqgrhpqA1uruVmfVbOP2rVVX8_xLtnQuwg26y60jxXM2DK-tvZ5n4jV4ayVT1otYtuH4zaB2d8YBMriSmBoigJJ1rsUrfzG8K9fdV-BwhuRI1X6nke65i3XD8-8p28u2b6Pbh3nkpaAhwx-6CLJbD5qvLYmGrUAUyA4Rv_99swFlSwAXyhz--w0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+<span class="text-white text-[10px] font-bold">5 hours ago</span>
+</div>
+</div>
+<p class="text-slate-900 dark:text-slate-100 text-xs font-bold truncate">Northern Cardinal</p>
+<p class="text-slate-500 text-[10px]">Identified by AI</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="mt-auto px-6 lg:px-20 py-10 bg-slate-100 dark:bg-background-dark/80 border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-[960px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-3">
+<div class="size-6 flex items-center justify-center bg-primary rounded text-slate-900">
+<span class="material-symbols-outlined text-sm font-bold">nest_eco_leaf</span>
+</div>
+<span class="text-slate-900 dark:text-white font-bold">NatureID</span>
+<span class="text-slate-500 text-sm">© 2024 BirdAI Intelligence</span>
+</div>
+<div class="flex gap-8">
+<a class="text-slate-500 hover:text-primary text-sm font-medium" href="#">Privacy</a>
+<a class="text-slate-500 hover:text-primary text-sm font-medium" href="#">Terms</a>
+<a class="text-slate-500 hover:text-primary text-sm font-medium" href="#">API Docs</a>
+<a class="text-slate-500 hover:text-primary text-sm font-medium" href="#">Support</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>
