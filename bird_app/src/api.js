@@ -1,6 +1,7 @@
 const API_BASE =
   import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:5000";
 
+// Helper function to handle API responses
 async function handleResponse(response) {
   if (!response.ok) {
     const message = await response.text();
@@ -9,6 +10,9 @@ async function handleResponse(response) {
   return response.json();
 }
 
+/* API functions */
+
+// Fetch species list with optional query parameters
 export async function fetchSpeciesList(params = {}) {
   const url = new URL(`${API_BASE}/api/species`);
   Object.entries(params).forEach(([key, value]) => {

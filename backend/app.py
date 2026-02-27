@@ -40,6 +40,17 @@ def create_app():
 
     db.init_app(app)
 
+    @app.after_request
+    def add_cors_headers(response):
+        response.headers["Access-Control-Allow-Origin"] = os.getenv(
+            "CORS_ORIGIN", "*"
+        )
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+        response.headers["Access-Control-Allow-Methods"] = (
+            "GET, POST, PUT, DELETE"
+        )
+        return response
+
     @app.cli.command("init-db")
     def init_db():
         db.create_all()
