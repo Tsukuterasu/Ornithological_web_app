@@ -64,6 +64,7 @@ def create_app():
         )
         return response
 
+    # Define CLI commands to facilitate database setup and seeding
     @app.cli.command("init-db")
     def init_db():
         db.create_all()
@@ -257,6 +258,7 @@ def create_app():
     return app
 
 
+# Helper functions for payload processing, normalization, serialization, and seeding
 def _get_payload():
     if request.is_json:
         data = request.get_json(silent=True) or {}

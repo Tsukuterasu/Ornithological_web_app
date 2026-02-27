@@ -26,14 +26,20 @@ pip install -r requirements.txt
 4. Initialize the database (SQLite by default):
 
 ```powershell
-$env:FLASK_APP="app:create_app"
-flask init-db
+$env:FLASK_APP="app"
+flask --app app init-db
 ```
 
-5. (Optional) Seed the database with fake data:
+5. (Optional) Seed the database with 30 hardcoded species:
 
 ```powershell
-flask seed-db
+flask --app app seed-db --count 30
+```
+
+To reset the SQLite database before seeding:
+
+```powershell
+Remove-Item -Force .\instance\ornithology.db -ErrorAction SilentlyContinue
 ```
 
 To auto-seed on startup:
@@ -45,7 +51,7 @@ $env:SEED_ON_STARTUP="1"
 6. Start the API:
 
 ```powershell
-flask run
+flask --app app run
 ```
 
 The API will run at `http://127.0.0.1:5000`.
@@ -85,7 +91,7 @@ $env:VITE_API_BASE_URL="http://127.0.0.1:5000"
 
 You can override defaults using environment variables:
 
-- `DATABASE_URL` (default: `sqlite:///ornithology.db`)
+- `DATABASE_URL` (default: `sqlite:///ornithology.db`, stored in `backend/instance/ornithology.db`)
 - `UPLOAD_FOLDER` (default: `uploads`)
 
 Example:
@@ -105,7 +111,7 @@ $env:UPLOAD_FOLDER="uploads"
 
 Sorting options:
 
-- `sort=population_estimate|year_of_discovery|created_at`
+- `sort=population_estimate|height_cm|weight_g|longevity_years|year_of_discovery|created_at`
 - `order=asc|desc`
 
 ## Mockups
