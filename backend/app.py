@@ -1,11 +1,22 @@
 import os
+import random
 from datetime import date
 from uuid import UUID, uuid4
 
 from flask import Flask, current_app, jsonify, request, send_from_directory
+import click
 from werkzeug.utils import secure_filename
 
-from models import Author, Image, Modification, Species, Taxonomy, db
+from models import (
+    Author,
+    Country,
+    Distribution,
+    Image,
+    Modification,
+    Species,
+    Taxonomy,
+    db,
+)
 
 
 SORT_FIELDS = {
@@ -33,6 +44,44 @@ def create_app():
     def init_db():
         db.create_all()
         print("Database initialized.")
+
+    @app.cli.command("seed-db")
+    @click.option("--count", default=20, show_default=True, type=int)
+    def seed_db(count):
+        """Populate the database with fake data."""
+        with app.app_context():
+            db.create_all()
+            seeded = _seed_fake_data(count)
+            if seeded:
+                print(f"Seeded database with {count} entries per table.")
+            else:
+                print("Database already contains data. Skipping seed.")
+
+    if os.getenv("SEED_ON_STARTUP") == "1":
+        with app.app_context():
+            db.create_all()
+            _seed_fake_data(20)
+
+    @app.route("/")
+    def index():
+        return jsonify({"message": "Welcome to the Ornithological Species API!"})
+    
+    @app.route("/api/health")    
+    def health_check():
+        return jsonify({"status": "ok", "message": "API is running normally."})
+    
+    @app.route("/api/docs")
+    def api_docs():
+        return jsonify({
+            "endpoints": {
+                "/api/species [POST]": "Create a new species entry.",
+                "/api/species [GET]": "List all species with optional sorting.",
+                "/api/species/<species_id> [GET]": "Get details of a specific species.",
+                "/api/species/<species_id> [PUT]": "Update an existing species entry.",
+                "/api/species/<species_id> [DELETE]": "Delete a species entry."
+            },
+            "description": "This API allows you to manage ornithological species data, including taxonomy, images, and distribution information."
+        })
 
     @app.route("/uploads/<path:filename>")
     def uploaded_file(filename):
@@ -358,6 +407,144 @@ def _format_date(value):
     if value is None:
         return None
     return value.isoformat()
+
+
+def _seed_fake_data(count):
+    if Species.query.first():
+        return False
+
+    random.seed(42)
+
+    order_names = [
+        "Passeriformes",
+        "Accipitriformes",
+        "Anseriformes",
+        "Strigiformes",
+        "Columbiformes",
+        "Piciformes",
+        "Falconiformes",
+        "Gruiformes",
+        "Charadriiformes",
+        "Apodiformes",
+    ]
+    family_names = [
+        "Muscicapidae",
+        "Accipitridae",
+        "Anatidae",
+        "Strigidae",
+        "Columbidae",
+        "Picidae",
+        "Falconidae",
+        "Rallidae",
+        "Scolopacidae",
+        "Apodidae",
+    ]
+    genus_names = [
+        "Erithacus",
+        "Aquila",
+        "Anas",
+        "Strix",
+        "Columba",
+        "Dendrocopos",
+        "Falco",
+        "Rallus",
+        "Tringa",
+        "Apus",
+    ]
+    conservation = [
+        "Least Concern",
+        "Near Threatened",
+        "Vulnerable",
+        "Endangered",
+    ]
+    continents = ["Europe", "Africa", "Asia", "Americas", "Oceania"]
+
+    taxonomies = []
+    for i in range(count):
+        taxonomies.append(
+            Taxonomy(
+                taxonomy_kingdom="Animalia",
+                taxonomy_phylum="Chordata",
+                taxonomy_class="Aves",
+                taxonomy_order=order_names[i % len(order_names)],
+                taxonomy_suborder=f"Suborder {i % 5 + 1}",
+                taxonomy_family=family_names[i % len(family_names)],
+                taxonomy_genus=genus_names[i % len(genus_names)],
+            )
+        )
+
+    authors = []
+    for i in range(count):
+        authors.append(
+            Author(
+                author_name=f"Author {i + 1}",
+                author_email=f"author{i + 1}@example.com",
+                author_role="Contributor" if i % 2 == 0 else "Researcher",
+            )
+        )
+
+    countries = []
+    for i in range(count):
+        countries.append(
+            Country(
+                country_name=f"Country {i + 1}",
+                continent_name=continents[i % len(continents)],
+                country_loc={"lat": round(random.uniform(-50, 60), 4), "lng": round(random.uniform(-120, 140), 4)},
+            )
+        )
+
+    db.session.add_all(taxonomies + authors + countries)
+    db.session.flush()
+
+    species_list = []
+    for i in range(count):
+        species_list.append(
+            Species(
+                common_name=f"Bird Species {i + 1}",
+                scientific_name=f"Genus{i + 1} species{i + 1}",
+                conservation_status=conservation[i % len(conservation)],
+                population_estimate=random.randint(1000, 1000000),
+                year_of_discovery=date(1800 + i, 1, 1),
+                summary="Seeded species data for testing.",
+                taxonomy=taxonomies[i % len(taxonomies)],
+            )
+        )
+
+    db.session.add_all(species_list)
+    db.session.flush()
+
+    images = []
+    modifications = []
+    distributions = []
+
+    for i, species in enumerate(species_list):
+        author = authors[i % len(authors)]
+        images.append(
+            Image(
+                species=species,
+                author=author,
+                image_url=f"https://example.com/images/bird_{i + 1}.jpg",
+                image_alt_text=f"Sample image for {species.common_name}",
+            )
+        )
+        modifications.append(
+            Modification(
+                species=species,
+                author=author,
+                modif_fields={"action": "seed", "index": i + 1},
+            )
+        )
+        distributions.append(
+            Distribution(
+                species=species,
+                country=countries[i % len(countries)],
+                population_estimate=random.randint(500, 500000),
+            )
+        )
+
+    db.session.add_all(images + modifications + distributions)
+    db.session.commit()
+    return True
 
 
 if __name__ == "__main__":

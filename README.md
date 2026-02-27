@@ -30,7 +30,19 @@ $env:FLASK_APP="app:create_app"
 flask init-db
 ```
 
-5. Start the API:
+5. (Optional) Seed the database with fake data:
+
+```powershell
+flask seed-db
+```
+
+To auto-seed on startup:
+
+```powershell
+$env:SEED_ON_STARTUP="1"
+```
+
+6. Start the API:
 
 ```powershell
 flask run

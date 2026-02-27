@@ -1,11 +1,6 @@
 # Python
 __pycache__/
-*.py[cod]
-*.pyo
-.pytest_cache/
 .venv/
-venv/
-ENV/
 
 # Flask / SQLite
 *.db
@@ -14,8 +9,6 @@ instance/
 # Node / Vite
 node_modules/
 dist/
-.env
-.env.*
 
 # Logs
 *.log
