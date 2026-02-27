@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { fetchSpeciesById, resolveImageUrl } from "../api.js";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { deleteSpecies, fetchSpeciesById, resolveImageUrl } from "../api.js";
 import { formatYear } from "../date.js";
 import { formatStatusLabel, getStatusClass } from "../status.js";
 import baseImage from "../../assets/base_fill.png";
 
 function SpeciesDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [species, setSpecies] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [actionError, setActionError] = useState("");
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -74,6 +77,22 @@ function SpeciesDetail() {
     species.longevity_years !== null && species.longevity_years !== undefined
       ? `${species.longevity_years} years`
       : "N/A";
+
+  const handleDelete = async () => {
+    if (!window.confirm("Delete this species? This action cannot be undone.")) {
+      return;
+    }
+    setDeleting(true);
+    setActionError("");
+    try {
+      await deleteSpecies(species.species_id);
+      navigate("/");
+    } catch (err) {
+      setActionError(err.message || "Unable to delete species.");
+    } finally {
+      setDeleting(false);
+    }
+  };
   return (
     <section className="section-shell">
       <div className="hero">
@@ -167,15 +186,30 @@ function SpeciesDetail() {
           </div>
           <div className="detail-section">
             <h3>Actions</h3>
-            <Link
-              className="button button-secondary"
-              to={`/species/${species.species_id}/edit`}
-            >
-              Edit species
-            </Link>
-            <Link className="button button-primary" to="/add-image">
-              Add an image
-            </Link>
+            <div className="action-buttons">
+              <Link
+                className="button button-primary"
+                to={`/species/${species.species_id}/edit`}
+              >
+                Edit species
+              </Link>
+              <Link className="button button-primary" to="/add-image">
+                Add an image
+              </Link>
+              <button
+                className="button button-danger"
+                type="button"
+                onClick={handleDelete}
+                disabled={deleting}
+              >
+                {deleting ? "Deleting..." : "Delete species"}
+              </button>
+            </div>
+            {actionError && (
+              <div className="notice notice-error" style={{ marginTop: "12px" }}>
+                {actionError}
+              </div>
+            )}
           </div>
         </aside>
       </div>

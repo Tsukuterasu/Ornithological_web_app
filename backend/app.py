@@ -529,7 +529,7 @@ def _seed_fake_data(count):
 def _load_seed_species():
     seed_path = os.path.join(os.path.dirname(__file__), "seed_species.json")
     try:
-        with open(seed_path, "r", encoding="utf-8") as handle:
+        with open(seed_path, "r", encoding="utf-8-sig") as handle:
             payload = json.load(handle)
     except (OSError, json.JSONDecodeError):
         return []

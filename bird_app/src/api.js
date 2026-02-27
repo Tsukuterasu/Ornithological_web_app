@@ -77,6 +77,13 @@ export async function updateSpecies(id, payload, imageFile) {
   return handleResponse(response);
 }
 
+export async function deleteSpecies(id) {
+  const response = await fetch(`${API_BASE}/api/species/${id}`, {
+    method: "DELETE",
+  });
+  return handleResponse(response);
+}
+
 export function resolveImageUrl(imageUrl) {
   if (!imageUrl) {
     return "";

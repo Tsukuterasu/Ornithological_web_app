@@ -225,6 +225,16 @@ a {
   transform: translateY(-1px);
 }
 
+.button-danger {
+  background: #f05a4a;
+  color: #ffffff;
+}
+
+.button-danger:hover {
+  box-shadow: 0 8px 18px #f05a4a40;
+  transform: translateY(-1px);
+}
+
 .button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -490,6 +500,16 @@ th {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-buttons .button {
+  width: 100%;
 }
 
 .detail-section {
