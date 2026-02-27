@@ -1,13 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchSpeciesList } from "../api.js";
-
-const placeholderImages = [
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCf29KECLnc3hqFWdT0ru-LCqpLAxS0KDWJr5xO4jcfTEV6dbGSzih58wF8pblutQfL3si3X8lS1FFitmkirjdnid2Dnbk28U0oPkujBwTA6--9R8Hy6p4fiVYwVLt3C7cDxCg9dPRfhkyEmQk0dhcf-SJBd7Mkax4_bBUWMp3ZZajY_WYqJyw2QZOTO95ERmi6nXuRKhhqROoNl0eI4s2dX4wBTVTsgpEHsWuQkX0d4q6DKrv-Rq-AmZsFSFCIv56AfIOegTo0AAY",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuC9sEHXsfTzwX4KscJc1FdiLq6Xgn1EuHLUpQigV-TDar60JOgV-8H8RNXbGcxPK_OESXT6MtGO8x2GMG9-evrIMnkjDS7pkm6UXg4ltlEuBZUMFoK7Xfkz6KsetdcmV1HUon6j0VhrAIo9x8mlsnZyZx8dkEwZ4sUfGX861-ezVDwOW9lNBaHP_d1VifbS7kMgGA7fJexvUuA0Epr-UtCm8gGnTqxh5fAJF6a7Mao18AZ5ojvgOQCxbDsS4yvsJSf0KLeqx5gmsoo",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuAy6ImyfjgxW2yfGE_8vNYTOp1uyYmt450GrIVN_XtsOMPQlfPljp8AlgSZtqVYDq1NRe9WABhLLWrH9kOaJYx2WCqrTFuRFU6Vwo7ikXMNfEM5qZH4V1yjI1pxHRiLC7CB2awYah3PHNo7SU9jr1DQV5zBO5xbsJsqqMx4EoEaQwBqQBxwLw90oin9Ypt7XE9smmjepJxrr1lTciV92o8ac0KY8q5zgrEIZyYF2NsVx9LWvOhIOg4yDG557h0IhgO8l_EYPoD_KrA",
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCHuxTVZYtMCrE5zKd56lmgGNm2dsN78ahGVMxL1C0AyeYSt_6zFax1AZdwcl0TwoO-VEwfChXN9XR_ulLsVWRs2wyvNYjPWxnTTP8trJ0MmUMG3g4XJGhfA9SfLbidvO9IpbVy0wfJcH-0xOYs9MxoSmN7jXkZFer1_WLUDqU8BFFdK9D2IbwIayj5GxhC3YMzvmQ__APuzLMFDvKWzieRkMfMYsMTYkqRuMA7SETgjCmlt884WjcPSmjBRxmXGY2Q5YliqJFAQK4",
-];
+import { fetchSpeciesList, resolveImageUrl } from "../api.js";
+import { formatStatusLabel, getStatusClass } from "../status.js";
+import baseImage from "../../assets/base_fill.png";
 
 function Directory() {
   const [speciesList, setSpeciesList] = useState([]);
@@ -52,6 +47,7 @@ function Directory() {
     });
   }, [query, speciesList]);
 
+
   return (
     <section className="section-shell">
       <div>
@@ -76,33 +72,38 @@ function Directory() {
 
       <div className="directory-grid">
         {filteredList.map((species, index) => {
-          const imageUrl =
-            species.images?.[0]?.image_url ||
-            placeholderImages[index % placeholderImages.length];
+          const resolved = resolveImageUrl(species.images?.[0]?.image_url);
+          const imageUrl = resolved || baseImage;
           return (
-            <article className="bird-card" key={species.species_id}>
-              <div
-                className="bird-card-image"
-                style={{ backgroundImage: `url('${imageUrl}')` }}
-              />
-              <div className="bird-card-body">
-                <div>
-                  <h3 className="bird-card-title">{species.common_name}</h3>
-                  <div className="bird-card-meta">
-                    {species.scientific_name || "Scientific name pending"}
+            <Link
+              key={species.species_id}
+              to={`/species/${species.species_id}`}
+              className="bird-card-link"
+            >
+              <article className="bird-card">
+                <div
+                  className="bird-card-image"
+                  style={{ backgroundImage: `url('${imageUrl}')` }}
+                />
+                <div className="bird-card-body">
+                  <div>
+                    <h3 className="bird-card-title">{species.common_name}</h3>
+                    <div className="bird-card-meta">
+                      {species.scientific_name || "Scientific name pending"}
+                    </div>
+                  </div>
+                  <div>
+                    <span
+                      className={`status-pill ${getStatusClass(
+                        species.conservation_status
+                      )}`}
+                    >
+                    {formatStatusLabel(species.conservation_status)}
+                    </span>
                   </div>
                 </div>
-                <div className="muted">
-                  Status: {species.conservation_status || "Unknown"}
-                </div>
-                <Link
-                  className="button button-secondary"
-                  to={`/species/${species.species_id}`}
-                >
-                  View Profile
-                </Link>
-              </div>
-            </article>
+              </article>
+            </Link>
           );
         })}
       </div>

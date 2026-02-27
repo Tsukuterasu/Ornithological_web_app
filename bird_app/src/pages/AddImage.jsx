@@ -79,21 +79,24 @@ function AddImage() {
               </select>
             </label>
             <label>
-              Image URL
-              <input
-                className="input"
-                value={imageUrl}
-                onChange={(event) => setImageUrl(event.target.value)}
-                placeholder="https://example.com/bird.jpg"
-              />
-            </label>
-            <label>
               Image Alt Text
               <input
                 className="input"
                 value={altText}
                 onChange={(event) => setAltText(event.target.value)}
                 placeholder="Short description"
+              />
+            </label>
+          </div>
+
+          <div className="form-row" style={{ marginTop: "16px" }}>
+            <label>
+              Image URL
+              <input
+                className="input"
+                value={imageUrl}
+                onChange={(event) => setImageUrl(event.target.value)}
+                placeholder="https://example.com/bird.jpg"
               />
             </label>
             <label>
@@ -107,15 +110,20 @@ function AddImage() {
             </label>
           </div>
 
-          {status.message && (
-            <p
-              className={
-                status.type === "error" ? "notice notice-error" : "notice"
-              }
-            >
-              {status.message}
-            </p>
-          )}
+          <div className="muted" style={{ marginTop: "8px" }}>
+            Use either an image URL or upload a file.
+          </div>
+          <div>
+            {status.message && (
+              <p
+                className={
+                  status.type === "error" ? "notice notice-error" : "notice"
+                }
+              >
+                {status.message}
+              </p>
+            )}
+          </div>
 
           <div style={{ display: "flex", gap: "12px" }}>
             <button className="button button-primary" disabled={busy}>

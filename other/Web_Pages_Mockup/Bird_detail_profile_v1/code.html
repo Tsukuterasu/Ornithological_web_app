@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>AvianBase - Peregrine Falcon</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ec80",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#102219",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a3326",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col antialiased selection:bg-primary/30">
+    <!-- Top Navigation -->
+    <header
+        class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-sm">
+        <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-8">
+                <a class="flex items-center gap-2 group" href="#">
+                    <div
+                        class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20 text-primary transition-colors group-hover:bg-primary group-hover:text-background-dark">
+                        <span class="material-symbols-outlined">fence</span>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">AvianBase</span>
+                </a>
+                <nav class="hidden md:flex items-center gap-6">
+                    <a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary transition-colors"
+                        href="#">Explore</a>
+                    <a class="text-sm font-medium text-slate-900 dark:text-white" href="#">Species</a>
+                    <a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary transition-colors"
+                        href="#">Conservation</a>
+                    <a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary transition-colors"
+                        href="#">Community</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:flex relative">
+                    <span
+                        class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
+                    <input
+                        class="h-9 w-64 rounded-full border border-slate-200 bg-white pl-9 pr-4 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-slate-700 dark:bg-surface-dark dark:text-white dark:placeholder-slate-400"
+                        placeholder="Search birds..." type="text" />
+                </div>
+                <button
+                    class="flex h-9 items-center justify-center rounded-lg bg-primary px-4 text-sm font-bold text-background-dark hover:bg-green-400 transition-colors">
+                    Sign In
+                </button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-grow">
+        <!-- Breadcrumbs -->
+        <div class="border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-surface-dark">
+            <div class="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
+                <nav class="flex items-center gap-2 text-sm">
+                    <a class="font-medium text-slate-500 hover:text-primary dark:text-slate-400" href="#">Home</a>
+                    <span class="material-symbols-outlined text-[16px] text-slate-400">chevron_right</span>
+                    <a class="font-medium text-slate-500 hover:text-primary dark:text-slate-400" href="#">Raptors</a>
+                    <span class="material-symbols-outlined text-[16px] text-slate-400">chevron_right</span>
+                    <a class="font-medium text-slate-500 hover:text-primary dark:text-slate-400" href="#">Falcons</a>
+                    <span class="material-symbols-outlined text-[16px] text-slate-400">chevron_right</span>
+                    <span class="font-bold text-primary">Peregrine Falcon</span>
+                </nav>
+            </div>
+        </div>
+        <!-- Hero Section -->
+        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <div class="relative overflow-hidden rounded-2xl bg-slate-900 shadow-xl">
+                <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                <div class="absolute top-4 right-4 z-20 flex gap-2">
+                    <button
+                        class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white/20 transition-colors">
+                        <span class="material-symbols-outlined">favorite</span>
+                    </button>
+                    <button
+                        class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-white/20 transition-colors">
+                        <span class="material-symbols-outlined">share</span>
+                    </button>
+                </div>
+                <div class="h-[400px] w-full bg-cover bg-center"
+                    data-alt="Peregrine falcon perched on a rocky cliff looking intently"
+                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCEySsTeePZwWDHseTK_KlgDTdUjdGPPHbO-zGhmAM970JxfudNSr1YGv4Had6P8UmefB0u8n-6VPjdpP5GyNAw-30sghHc7x8Hn6eyNRmW_-PHDpUJyWn_pq70DUbS-EDeKc7ScoPNuhQrMfsX09jYPiyx2NRykRCrPuGCL6FVUbqdiQpPTtIX-x125zF0_drgE5ZA8ATJHTIz5J8X7vQ4S9y1mVSLxmlC6CFTybdzeXQhnpryLZEmF_oyaN7l9EaYlytTBt2KiO0');">
+                </div>
+                <div class="absolute bottom-0 left-0 z-20 w-full p-6 sm:p-10">
+                    <div
+                        class="mb-2 inline-flex items-center gap-1.5 rounded-full bg-primary/90 px-3 py-1 text-xs font-bold text-background-dark backdrop-blur-sm">
+                        <span class="material-symbols-outlined text-[14px]">verified</span>
+                        Least Concern
+                    </div>
+                    <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">Peregrine
+                        Falcon</h1>
+                    <p class="mt-2 text-lg font-medium text-slate-200 italic">Falco peregrinus</p>
+                </div>
+            </div>
+        </div>
+        <!-- Main Content Layout -->
+        <div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 pb-16 sm:px-6 lg:grid-cols-3 lg:px-8">
+            <!-- Left Column (Main Details) -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Quick Facts Row -->
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                    <div
+                        class="flex flex-col rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-surface-dark dark:ring-slate-700">
+                        <div
+                            class="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                            <span class="material-symbols-outlined">straighten</span>
+                        </div>
+                        <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Length</p>
+                        <p class="mt-1 text-2xl font-bold text-slate-900 dark:text-white">34-58 <span
+                                class="text-sm font-normal text-slate-500 dark:text-slate-400">cm</span></p>
+                    </div>
+                    <div
+                        class="flex flex-col rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-surface-dark dark:ring-slate-700">
+                        <div
+                            class="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                            <span class="material-symbols-outlined">flight</span>
+                        </div>
+                        <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Wingspan</p>
+                        <p class="mt-1 text-2xl font-bold text-slate-900 dark:text-white">74-120 <span
+                                class="text-sm font-normal text-slate-500 dark:text-slate-400">cm</span></p>
+                    </div>
+                    <div
+                        class="flex flex-col rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-surface-dark dark:ring-slate-700">
+                        <div
+                            class="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                            <span class="material-symbols-outlined">scale</span>
+                        </div>
+                        <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Weight</p>
+                        <p class="mt-1 text-2xl font-bold text-slate-900 dark:text-white">0.7-1.5 <span
+                                class="text-sm font-normal text-slate-500 dark:text-slate-400">kg</span></p>
+                    </div>
+                </div>
+                <!-- Detailed Content Sections -->
+                <div class="space-y-8">
+                    <section
+                        class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 dark:bg-surface-dark dark:ring-slate-700 sm:p-8">
+                        <h2 class="mb-4 flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white">
+                            <span class="material-symbols-outlined text-primary">visibility</span>
+                            Behavior
+                        </h2>
+                        <p class="leading-relaxed text-slate-600 dark:text-slate-300">
+                            The Peregrine Falcon is renowned for its speed, reaching over 320 km/h (200 mph) during its
+                            characteristic hunting stoop (high-speed dive), making it the fastest bird in the world, as
+                            well as the fastest member of the animal kingdom. They are fierce defenders of their nest
+                            sites and have been known to attack much larger birds that wander too close.
+                        </p>
+                    </section>
+                    <section
+                        class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 dark:bg-surface-dark dark:ring-slate-700 sm:p-8">
+                        <h2 class="mb-4 flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white">
+                            <span class="material-symbols-outlined text-primary">restaurant</span>
+                            Diet
+                        </h2>
+                        <p class="leading-relaxed text-slate-600 dark:text-slate-300">
+                            Peregrine Falcons feed almost exclusively on medium-sized birds such as pigeons and doves,
+                            waterfowl, songbirds, and waders. In urban areas, the Rock Pigeon is the principal prey
+                            item. They catch their prey in mid-air with spectacular aerial maneuvers.
+                        </p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <span
+                                class="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">Pigeons</span>
+                            <span
+                                class="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">Doves</span>
+                            <span
+                                class="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">Waterfowl</span>
+                            <span
+                                class="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">Songbirds</span>
+                        </div>
+                    </section>
+                    <section
+                        class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 dark:bg-surface-dark dark:ring-slate-700 sm:p-8">
+                        <h2 class="mb-4 flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white">
+                            <span class="material-symbols-outlined text-primary">public</span>
+                            Distribution
+                        </h2>
+                        <div class="relative h-64 w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
+                            <img class="h-full w-full object-cover opacity-80 hover:opacity-100 transition-opacity"
+                                data-alt="Map showing global distribution of the peregrine falcon"
+                                data-location="Global Map"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYUr1pH3fVGN1F2ScuURtwxoK9-WG--_04hqs8M2YP6JYtadb7WVSzPv0soG7eRDKZiq2yHaGGtNfMzVSEE3ZoZTHhftsjTd0Ae8G4rh4XejBOm7tQ78x82-6Td5UQammk1ggUjEmBY1QXbMJUIP7ngb2AokCLTxZyxHmpIjcNUhfwJh6H8OcY86T5cPHUXNOsp4eI-byDGuhHAO_c91MjjwRtjHYCIa-ahxvRDeO3Ig1ftQH0hD9IET328SJqgFF8mKrnEWAhUs0" />
+                            <div
+                                class="absolute bottom-3 left-3 rounded-lg bg-white/90 px-3 py-1.5 text-xs font-semibold shadow-sm backdrop-blur-sm dark:bg-black/80 dark:text-white">
+                                Cosmopolitan range (found everywhere except Antarctica)
+                            </div>
+                        </div>
+                        <p class="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                            The Peregrine Falcon has a breeding range that includes land regions from the Arctic tundra
+                            to the tropics. It can be found nearly everywhere on Earth, except extreme polar regions,
+                            very high mountains, and most tropical rainforests; the only major ice-free landmass from
+                            which it is entirely absent is New Zealand.
+                        </p>
+                    </section>
+                </div>
+            </div>
+            <!-- Right Column (Sidebar) -->
+            <div class="lg:col-span-1 space-y-8">
+                <!-- Identity Card -->
+                <div
+                    class="rounded-2xl bg-surface-dark p-6 text-white shadow-lg ring-1 ring-white/10 dark:ring-slate-700">
+                    <div class="mb-6 flex items-center justify-between border-b border-white/10 pb-4">
+                        <h3 class="text-lg font-bold">Taxonomy</h3>
+                        <span class="material-symbols-outlined text-primary">fingerprint</span>
+                    </div>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-center justify-between">
+                            <span class="text-slate-400">Kingdom</span>
+                            <span class="font-semibold">Animalia</span>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span class="text-slate-400">Phylum</span>
+                            <span class="font-semibold">Chordata</span>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span class="text-slate-400">Class</span>
+                            <span class="font-semibold">Aves</span>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span class="text-slate-400">Order</span>
+                            <span class="font-semibold">Falconiformes</span>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span class="text-slate-400">Family</span>
+                            <span class="font-semibold">Falconidae</span>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span class="text-slate-400">Genus</span>
+                            <span class="font-semibold text-primary">Falco</span>
+                        </li>
+                        <li class="flex items-center justify-between border-t border-white/10 pt-3">
+                            <span class="text-slate-400">Species</span>
+                            <span class="font-bold italic text-primary">F. peregrinus</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Habitat Summary -->
+                <div
+                    class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 dark:bg-surface-dark dark:ring-slate-700">
+                    <h3 class="mb-4 text-lg font-bold text-slate-900 dark:text-white">Habitat Preference</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-100 dark:bg-slate-800">
+                                <span
+                                    class="material-symbols-outlined text-sm text-slate-600 dark:text-slate-300">landscape</span>
+                            </div>
+                            <span class="text-sm font-medium text-slate-700 dark:text-slate-200">Cliffs &amp;
+                                Mountains</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-100 dark:bg-slate-800">
+                                <span
+                                    class="material-symbols-outlined text-sm text-slate-600 dark:text-slate-300">location_city</span>
+                            </div>
+                            <span class="text-sm font-medium text-slate-700 dark:text-slate-200">Urban
+                                Skyscrapers</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="flex h-8 w-8 items-center justify-center rounded-md bg-slate-100 dark:bg-slate-800">
+                                <span
+                                    class="material-symbols-outlined text-sm text-slate-600 dark:text-slate-300">water_drop</span>
+                            </div>
+                            <span class="text-sm font-medium text-slate-700 dark:text-slate-200">Coastal Areas</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Audio Call -->
+                <div
+                    class="rounded-2xl bg-primary/10 p-6 ring-1 ring-primary/20 dark:bg-surface-dark dark:ring-slate-700">
+                    <h3 class="mb-2 text-lg font-bold text-slate-900 dark:text-white">Bird Call</h3>
+                    <p class="mb-4 text-xs text-slate-500 dark:text-slate-400">Listen to the distinctive call.</p>
+                    <div class="flex items-center gap-3">
+                        <button
+                            class="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-background-dark shadow-md hover:bg-green-400 hover:shadow-lg transition-all">
+                            <span class="material-symbols-outlined">play_arrow</span>
+                        </button>
+                        <div class="flex-1">
+                            <div class="h-8 w-full rounded-md bg-slate-200 dark:bg-slate-700 relative overflow-hidden">
+                                <div class="absolute inset-0 flex items-center justify-center gap-0.5 opacity-30">
+                                    <div class="h-3 w-1 bg-slate-800 dark:bg-white rounded-full"></div>
+                                    <div class="h-5 w-1 bg-slate-800 dark:bg-white rounded-full"></div>
+                                    <div class="h-4 w-1 bg-slate-800 dark:bg-white rounded-full"></div>
+                                    <div class="h-6 w-1 bg-slate-800 dark:bg-white rounded-full"></div>
+                                    <div class="h-3 w-1 bg-slate-800 dark:bg-white rounded-full"></div>
+                                    <div class="h-2 w-1 bg-slate-800 dark:bg-white rounded-full"></div>
+                                    <div class="h-5 w-1 bg-slate-800 dark:bg-white rounded-full"></div>
+                                    <div class="h-4 w-1 bg-slate-800 dark:bg-white rounded-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Related Birds Grid -->
+        <div class="bg-white dark:bg-surface-dark border-t border-slate-100 dark:border-slate-800 py-12">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mb-8 flex items-center justify-between">
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Related Species</h2>
+                    <a class="group flex items-center gap-1 text-sm font-semibold text-primary hover:text-green-400"
+                        href="#">
+                        View all Raptors
+                        <span
+                            class="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                    <!-- Card 1 -->
+                    <a class="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-background-light shadow-sm transition-all hover:-translate-y-1 hover:shadow-md dark:border-slate-800 dark:bg-background-dark"
+                        href="#">
+                        <div class="aspect-[4/3] overflow-hidden">
+                            <div class="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                                data-alt="Kestrel perched on a branch looking sideways"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCQkq5J77Ka2sFVVLv3w0dezvP2XDlax_dprtp6ZS9WHTQQmyLEAaOIyjtpDwQspiehzUSnMe0tKNguB0uktF2txCBh7S78csAdkBHUS9ME-4KBKVBGprKwWh2CxvwBQQHAjFbkqKFHBJp7xK8scW1Gk8G-z0kd9MJB1vqS67TZA16f6fW8Y2TgJnLFH2udXvJSm_4Xf5ETwJW0JIUP-Z63SeHp9GcSNSn2t1pSY8-UAbT9SK2z61jTrdQE6X-I9AbTeJh6GMvpu4Y');">
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-slate-900 dark:text-white">Common Kestrel</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Falco tinnunculus</p>
+                        </div>
+                    </a>
+                    <!-- Card 2 -->
+                    <a class="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-background-light shadow-sm transition-all hover:-translate-y-1 hover:shadow-md dark:border-slate-800 dark:bg-background-dark"
+                        href="#">
+                        <div class="aspect-[4/3] overflow-hidden">
+                            <div class="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                                data-alt="Merlin falcon sitting on a fence post"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBA8qdPgw7e7NvSVvrOlOgRFVOERBY4AUDjcfmc6WTv6p9OILn1gyzhc7AlFytMQhRQsyvakyqWjdIDypAkzfaRETs68M1n_Y3KE0MLLrJ3uFSiiAWMAhUNr1IRJ-QuhM-J_bQz1j4Yx4e7nELKx0XQLgAZoWIktpLv590kzX4H4iDn0kMJm9Zg2yEgnLAP29Xv3r4DpNOXrZ0MnZRPO-GNKnmTKWsCKSc_LdKTIGNSsWSKoU0tgaHeL73YzyeakBok5fBHVVP7cj4');">
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-slate-900 dark:text-white">Merlin</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Falco columbarius</p>
+                        </div>
+                    </a>
+                    <!-- Card 3 -->
+                    <a class="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-background-light shadow-sm transition-all hover:-translate-y-1 hover:shadow-md dark:border-slate-800 dark:bg-background-dark"
+                        href="#">
+                        <div class="aspect-[4/3] overflow-hidden">
+                            <div class="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                                data-alt="Gyrfalcon in snowy environment"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA_aS7iCfMsAh7x5rOWDPGm4ME1BwpRldq-e7cPCXG3kLNX35_J73hrjxjVEqCDi2nV5R3oUuFWc1Sl4GG75kWmCQMPeluWzV5K83iw0-6VIit5teWwagq7_KyFSmWc_XTiypHTt6_MJ89VfFQwPgAiU6masmmHdInoemyyRKtsBfKDlVYwwDbNxWRoOhpbVkGRYI6tkTs-X50NrKzFNK_TdDT84IclonRVnEyDPaQYzc5slNvhyYfJ_LG80bBvXy3SC-_rnd5lqY0');">
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-slate-900 dark:text-white">Gyrfalcon</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Falco rusticolus</p>
+                        </div>
+                    </a>
+                    <!-- Card 4 -->
+                    <a class="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-background-light shadow-sm transition-all hover:-translate-y-1 hover:shadow-md dark:border-slate-800 dark:bg-background-dark"
+                        href="#">
+                        <div class="aspect-[4/3] overflow-hidden">
+                            <div class="h-full w-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                                data-alt="Hobby falcon in flight"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBvrbOTtleymfe75koumCdyJE6GjaO06EKZtXeVogKF2JZN6bBKIANFoZQKJRsi757RE6da2PT0RcPL_uFWCyiQDg4oGTVygEUWU5j7omlugzrpIYRuWoOHwyizO0g_neJWsTgf9bYpT-eZB82XP55rnKsUD53Fy7fGjDaGpKx7Sn7Z8WCMF-OumDBBXULxtoOaxt0M80C_UVEeQG9oq7jFUIEpzMsHnb8QWi5MxOnBLycnsfifVK1kZgJhAH63mA6-7XZvlqcCsmE');">
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-slate-900 dark:text-white">Eurasian Hobby</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Falco subbuteo</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark py-10">
+        <div
+            class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 sm:px-6 lg:flex-row lg:px-8">
+            <div class="flex items-center gap-2">
+                <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20 text-primary">
+                    <span class="material-symbols-outlined">fence</span>
+                </div>
+                <span class="text-lg font-bold text-slate-900 dark:text-white">AvianBase</span>
+            </div>
+            <p class="text-center text-sm text-slate-500 dark:text-slate-400">
+                © 2024 AvianBase. Dedicated to the conservation of bird species worldwide.
+            </p>
+            <div class="flex gap-6">
+                <a class="text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                    href="#">Privacy</a>
+                <a class="text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                    href="#">Terms</a>
+                <a class="text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                    href="#">Contact</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

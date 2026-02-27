@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { createSpecies } from "../api.js";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { fetchSpeciesById, updateSpecies } from "../api.js";
 
-// Intit form state fields
 const initialState = {
   common_name: "",
   scientific_name: "",
@@ -26,11 +26,69 @@ const initialState = {
   image_alt_text: "",
 };
 
-function AddSpecies() {
+function EditSpecies() {
+  const { id } = useParams();
   const [form, setForm] = useState(initialState);
   const [imageFile, setImageFile] = useState(null);
   const [status, setStatus] = useState({ type: "", message: "" });
   const [busy, setBusy] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [originalImageUrl, setOriginalImageUrl] = useState("");
+  const [originalAltText, setOriginalAltText] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    setLoading(true);
+    fetchSpeciesById(id)
+      .then((data) => {
+        if (!active) return;
+        const firstImage = data.images?.[0];
+        const imageAuthor = firstImage?.author || {};
+        const taxonomy = data.taxonomy || {};
+
+        setForm({
+          common_name: data.common_name || "",
+          scientific_name: data.scientific_name || "",
+          conservation_status: data.conservation_status || "",
+          population_estimate: data.population_estimate ?? "",
+          height_cm: data.height_cm ?? "",
+          weight_g: data.weight_g ?? "",
+          longevity_years: data.longevity_years ?? "",
+          year_of_discovery: data.year_of_discovery
+            ? String(data.year_of_discovery).slice(0, 4)
+            : "",
+          summary: data.summary || "",
+          taxonomy_kingdom: taxonomy.taxonomy_kingdom || "",
+          taxonomy_phylum: taxonomy.taxonomy_phylum || "",
+          taxonomy_class: taxonomy.taxonomy_class || "",
+          taxonomy_order: taxonomy.taxonomy_order || "",
+          taxonomy_suborder: taxonomy.taxonomy_suborder || "",
+          taxonomy_family: taxonomy.taxonomy_family || "",
+          taxonomy_genus: taxonomy.taxonomy_genus || "",
+          author_name: imageAuthor.author_name || "",
+          author_email: imageAuthor.author_email || "",
+          author_role: imageAuthor.author_role || "",
+          image_url: firstImage?.image_url || "",
+          image_alt_text: firstImage?.image_alt_text || "",
+        });
+        setOriginalImageUrl(firstImage?.image_url || "");
+        setOriginalAltText(firstImage?.image_alt_text || "");
+        setLoading(false);
+      })
+      .catch(() => {
+        if (active) {
+          setStatus({
+            type: "error",
+            message: "Unable to load species for editing.",
+          });
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [id]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -138,19 +196,19 @@ function AddSpecies() {
       }
 
       const taxonomy = {
-        taxonomy_kingdom: form.taxonomy_kingdom,
-        taxonomy_phylum: form.taxonomy_phylum,
-        taxonomy_class: form.taxonomy_class,
-        taxonomy_order: form.taxonomy_order,
-        taxonomy_suborder: form.taxonomy_suborder,
-        taxonomy_family: form.taxonomy_family,
-        taxonomy_genus: form.taxonomy_genus,
+        taxonomy_kingdom: form.taxonomy_kingdom.trim(),
+        taxonomy_phylum: form.taxonomy_phylum.trim(),
+        taxonomy_class: form.taxonomy_class.trim(),
+        taxonomy_order: form.taxonomy_order.trim(),
+        taxonomy_suborder: form.taxonomy_suborder.trim(),
+        taxonomy_family: form.taxonomy_family.trim(),
+        taxonomy_genus: form.taxonomy_genus.trim(),
       };
 
       const author = {
-        author_name: form.author_name,
-        author_email: form.author_email,
-        author_role: form.author_role,
+        author_name: form.author_name.trim(),
+        author_email: form.author_email.trim(),
+        author_role: form.author_role.trim(),
       };
 
       const payload = {
@@ -163,50 +221,59 @@ function AddSpecies() {
         longevity_years: longevityValue,
         year_of_discovery: String(yearValue),
         summary: form.summary.trim(),
-        image_url: form.image_url.trim(),
-        image_alt_text: form.image_alt_text.trim(),
+        taxonomy,
+        author,
       };
 
-      payload.taxonomy = taxonomy;
-      payload.author = author;
-
+      const imageUrlChanged = form.image_url.trim() !== originalImageUrl;
+      const altTextChanged = form.image_alt_text.trim() !== originalAltText;
       if (imageFile) {
-        delete payload.image_url;
+        payload.image_alt_text = form.image_alt_text.trim();
+      } else if (imageUrlChanged || altTextChanged) {
+        payload.image_url = form.image_url.trim();
+        payload.image_alt_text = form.image_alt_text.trim();
       }
 
-      await createSpecies(payload, imageFile);
-
+      await updateSpecies(id, payload, imageFile);
+      setOriginalImageUrl(form.image_url.trim());
+      setOriginalAltText(form.image_alt_text.trim());
+      setImageFile(null);
       setStatus({
         type: "success",
-        message: "Species created successfully.",
+        message: "Species updated successfully.",
       });
-      setForm(initialState);
-      setImageFile(null);
     } catch (error) {
       setStatus({
         type: "error",
-        message: error.message || "Unable to create species.",
+        message: error.message || "Unable to update species.",
       });
     } finally {
       setBusy(false);
     }
   };
 
+  if (loading) {
+    return (
+      <section className="section-shell">
+        <div className="notice">Loading species...</div>
+      </section>
+    );
+  }
+
   return (
     <section className="section-shell">
       <div>
-        <h1 className="page-title">Add New Species</h1>
+        <h1 className="page-title">Edit Species</h1>
         <p className="page-subtitle">
-          Use the mockup-inspired form to add a new bird species to the
-          database.
+          Update all fields below. The form is prefilled with existing data.
         </p>
       </div>
 
       <div className="card">
         <form className="card-section" onSubmit={handleSubmit}>
           <div className="notice" style={{ marginBottom: "16px" }}>
-            Tip: you can upload an image now, or use the dedicated image page
-            later.
+            All fields are required. Provide a new image URL or upload if you
+            want to change the image.
           </div>
 
           <div className="card">
@@ -218,7 +285,6 @@ function AddSpecies() {
                   <input
                     className="input"
                     name="common_name"
-                    placeholder="e.g. Mountain Bluebird"
                     value={form.common_name}
                     onChange={handleChange}
                     required
@@ -229,7 +295,6 @@ function AddSpecies() {
                   <input
                     className="input"
                     name="scientific_name"
-                    placeholder="e.g. Sialia currucoides"
                     value={form.scientific_name}
                     onChange={handleChange}
                     required
@@ -263,7 +328,6 @@ function AddSpecies() {
                   <input
                     className="input"
                     name="population_estimate"
-                    placeholder="e.g. 1500000"
                     value={form.population_estimate}
                     onChange={handleChange}
                     type="number"
@@ -276,7 +340,6 @@ function AddSpecies() {
                   <input
                     className="input"
                     name="height_cm"
-                    placeholder="e.g. 35.5"
                     value={form.height_cm}
                     onChange={handleChange}
                     type="number"
@@ -289,7 +352,6 @@ function AddSpecies() {
                   <input
                     className="input"
                     name="weight_g"
-                    placeholder="e.g. 1200"
                     value={form.weight_g}
                     onChange={handleChange}
                     type="number"
@@ -302,7 +364,6 @@ function AddSpecies() {
                   <input
                     className="input"
                     name="longevity_years"
-                    placeholder="e.g. 12"
                     value={form.longevity_years}
                     onChange={handleChange}
                     type="number"
@@ -315,7 +376,6 @@ function AddSpecies() {
                   <input
                     className="input"
                     name="year_of_discovery"
-                    placeholder="e.g. 1825"
                     value={form.year_of_discovery}
                     onChange={handleChange}
                     type="number"
@@ -331,7 +391,6 @@ function AddSpecies() {
                   className="textarea"
                   name="summary"
                   rows="4"
-                  placeholder="Short description and key facts."
                   value={form.summary}
                   onChange={handleChange}
                   required
@@ -427,7 +486,6 @@ function AddSpecies() {
                   <input
                     className="input"
                     name="image_url"
-                    placeholder="https://example.com/bird.jpg"
                     value={form.image_url}
                     onChange={handleChange}
                     required={!imageFile}
@@ -438,7 +496,6 @@ function AddSpecies() {
                   <input
                     className="input"
                     name="image_alt_text"
-                    placeholder="Describe the image"
                     value={form.image_alt_text}
                     onChange={handleChange}
                     required
@@ -509,19 +566,11 @@ function AddSpecies() {
 
           <div style={{ display: "flex", gap: "12px", marginTop: "20px" }}>
             <button className="button button-primary" type="submit" disabled={busy}>
-              {busy ? "Saving..." : "Create Species"}
+              {busy ? "Saving..." : "Save Changes"}
             </button>
-            <button
-              className="button button-outline"
-              type="button"
-              onClick={() => {
-                setForm(initialState);
-                setImageFile(null);
-                setStatus({ type: "", message: "" });
-              }}
-            >
-              Reset
-            </button>
+            <Link className="button button-outline" to={`/species/${id}`}>
+              Cancel
+            </Link>
           </div>
         </form>
       </div>
@@ -529,4 +578,4 @@ function AddSpecies() {
   );
 }
 
-export default AddSpecies;
+export default EditSpecies;

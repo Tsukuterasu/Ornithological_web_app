@@ -1,0 +1,302 @@
+﻿[
+  {
+    "common_name": "Green Heron",
+    "scientific_name": "Butorides virescens",
+    "conservation_status": "least_concern",
+    "population_estimate": 700000,
+    "year_of_discovery": 1766,
+    "height_cm": 44.0,
+    "weight_g": 230.0,
+    "longevity_years": 8
+  },
+  {
+    "common_name": "Black-crowned Night-Heron",
+    "scientific_name": "Nycticorax nycticorax",
+    "conservation_status": "least_concern",
+    "population_estimate": 900000,
+    "year_of_discovery": 1758,
+    "height_cm": 64.0,
+    "weight_g": 800.0,
+    "longevity_years": 21
+  },
+  {
+    "common_name": "Great Egret",
+    "scientific_name": "Ardea alba",
+    "conservation_status": "least_concern",
+    "population_estimate": 1200000,
+    "year_of_discovery": 1758,
+    "height_cm": 90.0,
+    "weight_g": 1000.0,
+    "longevity_years": 15
+  },
+  {
+    "common_name": "White Ibis",
+    "scientific_name": "Eudocimus albus",
+    "conservation_status": "least_concern",
+    "population_estimate": 250000,
+    "year_of_discovery": 1758,
+    "height_cm": 56.0,
+    "weight_g": 1000.0,
+    "longevity_years": 16
+  },
+  {
+    "common_name": "Wood Duck",
+    "scientific_name": "Aix sponsa",
+    "conservation_status": "least_concern",
+    "population_estimate": 3000000,
+    "year_of_discovery": 1758,
+    "height_cm": 50.0,
+    "weight_g": 680.0,
+    "longevity_years": 15
+  },
+  {
+    "common_name": "Green-winged Teal",
+    "scientific_name": "Anas crecca",
+    "conservation_status": "least_concern",
+    "population_estimate": 6000000,
+    "year_of_discovery": 1758,
+    "height_cm": 37.0,
+    "weight_g": 350.0,
+    "longevity_years": 12
+  },
+  {
+    "common_name": "Gadwall",
+    "scientific_name": "Anas strepera",
+    "conservation_status": "least_concern",
+    "population_estimate": 4000000,
+    "year_of_discovery": 1758,
+    "height_cm": 50.0,
+    "weight_g": 900.0,
+    "longevity_years": 12
+  },
+  {
+    "common_name": "Mallard",
+    "scientific_name": "Anas platyrhynchos",
+    "conservation_status": "least_concern",
+    "population_estimate": 19000000,
+    "year_of_discovery": 1758,
+    "height_cm": 58.0,
+    "weight_g": 1200.0,
+    "longevity_years": 10
+  },
+  {
+    "common_name": "Blue-winged Teal",
+    "scientific_name": "Anas discors",
+    "conservation_status": "least_concern",
+    "population_estimate": 4500000,
+    "year_of_discovery": 1766,
+    "height_cm": 40.0,
+    "weight_g": 370.0,
+    "longevity_years": 12
+  },
+  {
+    "common_name": "Northern Shoveler",
+    "scientific_name": "Anas clypeata",
+    "conservation_status": "least_concern",
+    "population_estimate": 5000000,
+    "year_of_discovery": 1758,
+    "height_cm": 48.0,
+    "weight_g": 800.0,
+    "longevity_years": 12
+  },
+  {
+    "common_name": "Northern Pintail",
+    "scientific_name": "Anas acuta",
+    "conservation_status": "least_concern",
+    "population_estimate": 6000000,
+    "year_of_discovery": 1758,
+    "height_cm": 65.0,
+    "weight_g": 1000.0,
+    "longevity_years": 13
+  },
+  {
+    "common_name": "Mottled Duck",
+    "scientific_name": "Anas fulvigula",
+    "conservation_status": "least_concern",
+    "population_estimate": 500000,
+    "year_of_discovery": 1874,
+    "height_cm": 55.0,
+    "weight_g": 1100.0,
+    "longevity_years": 11
+  },
+  {
+    "common_name": "Ring-necked Duck",
+    "scientific_name": "Aythya collaris",
+    "conservation_status": "least_concern",
+    "population_estimate": 1000000,
+    "year_of_discovery": 1809,
+    "height_cm": 45.0,
+    "weight_g": 900.0,
+    "longevity_years": 12
+  },
+  {
+    "common_name": "Greater Scaup",
+    "scientific_name": "Aythya marila",
+    "conservation_status": "least_concern",
+    "population_estimate": 1500000,
+    "year_of_discovery": 1761,
+    "height_cm": 47.0,
+    "weight_g": 1100.0,
+    "longevity_years": 14
+  },
+  {
+    "common_name": "Bufflehead",
+    "scientific_name": "Bucephala albeola",
+    "conservation_status": "least_concern",
+    "population_estimate": 1200000,
+    "year_of_discovery": 1758,
+    "height_cm": 38.0,
+    "weight_g": 450.0,
+    "longevity_years": 10
+  },
+  {
+    "common_name": "Hooded Merganser",
+    "scientific_name": "Lophodytes cucullatus",
+    "conservation_status": "least_concern",
+    "population_estimate": 1100000,
+    "year_of_discovery": 1758,
+    "height_cm": 47.0,
+    "weight_g": 820.0,
+    "longevity_years": 11
+  },
+  {
+    "common_name": "Common Merganser",
+    "scientific_name": "Mergus merganser",
+    "conservation_status": "least_concern",
+    "population_estimate": 1700000,
+    "year_of_discovery": 1758,
+    "height_cm": 65.0,
+    "weight_g": 1200.0,
+    "longevity_years": 13
+  },
+  {
+    "common_name": "Red-breasted Merganser",
+    "scientific_name": "Mergus serrator",
+    "conservation_status": "least_concern",
+    "population_estimate": 250000,
+    "year_of_discovery": 1758,
+    "height_cm": 57.0,
+    "weight_g": 1000.0,
+    "longevity_years": 12
+  },
+  {
+    "common_name": "Ruddy Duck",
+    "scientific_name": "Oxyura jamaicensis",
+    "conservation_status": "least_concern",
+    "population_estimate": 350000,
+    "year_of_discovery": 1789,
+    "height_cm": 35.0,
+    "weight_g": 600.0,
+    "longevity_years": 10
+  },
+  {
+    "common_name": "Common Loon",
+    "scientific_name": "Gavia immer",
+    "conservation_status": "least_concern",
+    "population_estimate": 260000,
+    "year_of_discovery": 1763,
+    "height_cm": 80.0,
+    "weight_g": 4500.0,
+    "longevity_years": 20
+  },
+  {
+    "common_name": "Pied-billed Grebe",
+    "scientific_name": "Podilymbus podiceps",
+    "conservation_status": "least_concern",
+    "population_estimate": 2000000,
+    "year_of_discovery": 1758,
+    "height_cm": 36.0,
+    "weight_g": 500.0,
+    "longevity_years": 9
+  },
+  {
+    "common_name": "Double-crested Cormorant",
+    "scientific_name": "Phalacrocorax auritus",
+    "conservation_status": "least_concern",
+    "population_estimate": 1400000,
+    "year_of_discovery": 1798,
+    "height_cm": 85.0,
+    "weight_g": 2500.0,
+    "longevity_years": 17
+  },
+  {
+    "common_name": "American White Pelican",
+    "scientific_name": "Pelecanus erythrorhynchos",
+    "conservation_status": "least_concern",
+    "population_estimate": 150000,
+    "year_of_discovery": 1798,
+    "height_cm": 140.0,
+    "weight_g": 7000.0,
+    "longevity_years": 20
+  },
+  {
+    "common_name": "Brown Pelican",
+    "scientific_name": "Pelecanus occidentalis",
+    "conservation_status": "least_concern",
+    "population_estimate": 620000,
+    "year_of_discovery": 1766,
+    "height_cm": 120.0,
+    "weight_g": 3500.0,
+    "longevity_years": 15
+  },
+  {
+    "common_name": "Anhinga",
+    "scientific_name": "Anhinga anhinga",
+    "conservation_status": "least_concern",
+    "population_estimate": 100000,
+    "year_of_discovery": 1766,
+    "height_cm": 86.0,
+    "weight_g": 1300.0,
+    "longevity_years": 13
+  },
+  {
+    "common_name": "Turkey Vulture",
+    "scientific_name": "Cathartes aura",
+    "conservation_status": "least_concern",
+    "population_estimate": 1200000,
+    "year_of_discovery": 1758,
+    "height_cm": 70.0,
+    "weight_g": 2000.0,
+    "longevity_years": 16
+  },
+  {
+    "common_name": "Osprey",
+    "scientific_name": "Pandion haliaetus",
+    "conservation_status": "least_concern",
+    "population_estimate": 400000,
+    "year_of_discovery": 1758,
+    "height_cm": 60.0,
+    "weight_g": 1500.0,
+    "longevity_years": 18
+  },
+  {
+    "common_name": "Golden Eagle",
+    "scientific_name": "Aquila chrysaetos",
+    "conservation_status": "least_concern",
+    "population_estimate": 200000,
+    "year_of_discovery": 1758,
+    "height_cm": 85.0,
+    "weight_g": 5000.0,
+    "longevity_years": 28
+  },
+  {
+    "common_name": "Bald Eagle",
+    "scientific_name": "Haliaeetus leucocephalus",
+    "conservation_status": "least_concern",
+    "population_estimate": 316700,
+    "year_of_discovery": 1766,
+    "height_cm": 90.0,
+    "weight_g": 4500.0,
+    "longevity_years": 20
+  },
+  {
+    "common_name": "Northern Harrier",
+    "scientific_name": "Circus cyaneus",
+    "conservation_status": "least_concern",
+    "population_estimate": 1000000,
+    "year_of_discovery": 1766,
+    "height_cm": 50.0,
+    "weight_g": 400.0,
+    "longevity_years": 13
+  }
+]

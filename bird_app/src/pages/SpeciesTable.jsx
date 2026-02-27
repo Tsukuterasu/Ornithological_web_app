@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchSpeciesList } from "../api.js";
+import { formatYear } from "../date.js";
+import { formatStatusLabel, getStatusClass } from "../status.js";
 
 function SpeciesTable() {
   const [speciesList, setSpeciesList] = useState([]);
@@ -8,6 +10,7 @@ function SpeciesTable() {
   const [order, setOrder] = useState("desc");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let active = true;
@@ -31,6 +34,7 @@ function SpeciesTable() {
     };
   }, [sortBy, order]);
 
+
   const rows = speciesList.slice(0, 20);
 
   return (
@@ -51,9 +55,13 @@ function SpeciesTable() {
             value={sortBy}
             onChange={(event) => setSortBy(event.target.value)}
           >
+            <option value="common_name">Common Name</option>
             <option value="population_estimate">Population</option>
+            <option value="height_cm">Height</option>
+            <option value="weight_g">Weight</option>
+            <option value="longevity_years">Longevity</option>
             <option value="year_of_discovery">Year of Discovery</option>
-            <option value="created_at">Created Date</option>
+            <option value="created_at">Entry creation date</option>
           </select>
         </label>
         <label>
@@ -80,35 +88,60 @@ function SpeciesTable() {
               <th>Scientific Name</th>
               <th>Status</th>
               <th>Population</th>
+              <th>Height (cm)</th>
+              <th>Weight (g)</th>
+              <th>Longevity (years)</th>
               <th>Year of Discovery</th>
-              <th>Profile</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((species) => (
-              <tr key={species.species_id}>
+              <tr
+                key={species.species_id}
+                className="table-row-link"
+                onClick={() => navigate(`/species/${species.species_id}`)}
+                role="link"
+                tabIndex={0}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    navigate(`/species/${species.species_id}`);
+                  }
+                }}
+              >
                 <td>{species.common_name}</td>
                 <td className="muted">{species.scientific_name || "N/A"}</td>
                 <td>
-                  <span className="status-pill">
-                    {species.conservation_status || "Unknown"}
+                  <span
+                    className={`status-pill ${getStatusClass(
+                      species.conservation_status
+                    )}`}
+                  >
+                    {formatStatusLabel(species.conservation_status)}
                   </span>
                 </td>
                 <td>{species.population_estimate || "N/A"}</td>
-                <td>{species.year_of_discovery || "N/A"}</td>
                 <td>
-                  <Link
-                    className="button button-outline"
-                    to={`/species/${species.species_id}`}
-                  >
-                    Open
-                  </Link>
+                  {species.height_cm !== null && species.height_cm !== undefined
+                    ? species.height_cm
+                    : "N/A"}
                 </td>
+                <td>
+                  {species.weight_g !== null && species.weight_g !== undefined
+                    ? species.weight_g
+                    : "N/A"}
+                </td>
+                <td>
+                  {species.longevity_years !== null &&
+                  species.longevity_years !== undefined
+                    ? species.longevity_years
+                    : "N/A"}
+                </td>
+                <td>{formatYear(species.year_of_discovery)}</td>
               </tr>
             ))}
             {rows.length === 0 && !loading && (
               <tr>
-                <td colSpan="6">No species available.</td>
+                <td colSpan="9">No species available.</td>
               </tr>
             )}
           </tbody>

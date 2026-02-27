@@ -336,6 +336,10 @@ a {
   box-shadow: var(--shadow);
 }
 
+.bird-card-link {
+  color: inherit;
+}
+
 .bird-card-image {
   height: 170px;
   background-size: cover;
@@ -395,6 +399,15 @@ th {
   font-weight: 700;
 }
 
+.table-row-link {
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.table-row-link:hover {
+  background: #f5faf7;
+}
+
 .status-pill {
   display: inline-flex;
   align-items: center;
@@ -405,6 +418,49 @@ th {
   border-radius: 999px;
   background: #effaf2;
   color: #1b6d44;
+  border: 1px solid transparent;
+}
+
+.status-least-concern {
+  background: #e7f8ef;
+  color: #1f6b46;
+  border-color: #c9ecd9;
+}
+
+.status-near-threatened {
+  background: #fff5db;
+  color: #8a5b16;
+  border-color: #f4ddb3;
+}
+
+.status-vulnerable {
+  background: #ffe9cc;
+  color: #8a4d12;
+  border-color: #f4cfa0;
+}
+
+.status-endangered {
+  background: #ffdcd6;
+  color: #8f3a32;
+  border-color: #f1b6b0;
+}
+
+.status-critically-endangered {
+  background: #ffcbc8;
+  color: #7c1f1a;
+  border-color: #ea9f9b;
+}
+
+.status-extinct-in-the-wild {
+  background: #f0e7ff;
+  color: #5c2f82;
+  border-color: #d9c8f7;
+}
+
+.status-extinct {
+  background: #e8e8ea;
+  color: #4b4f54;
+  border-color: #cfd2d6;
 }
 
 .sidebar-card {

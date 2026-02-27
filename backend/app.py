@@ -1,5 +1,7 @@
+import json
 import os
 import random
+import shutil
 from datetime import date
 from uuid import UUID, uuid4
 
@@ -20,8 +22,15 @@ from models import (
 
 
 SORT_FIELDS = {
+    "common_name": Species.common_name,
     "population": Species.population_estimate,
     "population_estimate": Species.population_estimate,
+    "height": Species.height_cm,
+    "height_cm": Species.height_cm,
+    "weight": Species.weight_g,
+    "weight_g": Species.weight_g,
+    "longevity": Species.longevity_years,
+    "longevity_years": Species.longevity_years,
     "year_of_discovery": Species.year_of_discovery,
     "created_at": Species.created_at,
 }
@@ -35,6 +44,10 @@ def create_app():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["UPLOAD_FOLDER"] = os.getenv("UPLOAD_FOLDER", "uploads")
     app.config["MAX_CONTENT_LENGTH"] = 15 * 1024 * 1024
+    app.config["DEFAULT_IMAGE_FILENAME"] = os.getenv("DEFAULT_IMAGE_FILENAME", "base_fill.png")
+    app.config["DEFAULT_IMAGE_SOURCE"] = os.path.abspath(
+        os.path.join(app.root_path, "..", "bird_app", "assets", "base_fill.png")
+    )
 
     os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
@@ -57,9 +70,9 @@ def create_app():
         print("Database initialized.")
 
     @app.cli.command("seed-db")
-    @click.option("--count", default=20, show_default=True, type=int)
+    @click.option("--count", default=30, show_default=True, type=int)
     def seed_db(count):
-        """Populate the database with fake data."""
+        """Populate the database with dataset-backed seed data."""
         with app.app_context():
             db.create_all()
             seeded = _seed_fake_data(count)
@@ -71,20 +84,20 @@ def create_app():
     if os.getenv("SEED_ON_STARTUP") == "1":
         with app.app_context():
             db.create_all()
-            _seed_fake_data(20)
+            _seed_fake_data(30)
 
-    @app.route("/")
+
+    # Define API routes
+    @app.route("/", methods=["GET"])
     def index():
-        return jsonify({"message": "Welcome to the Ornithological Species API!"})
+        return jsonify({"message": "Welcome to the Ornithological Species API!", "status": "ok"})
     
-    @app.route("/api/health")    
-    def health_check():
-        return jsonify({"status": "ok", "message": "API is running normally."})
-    
-    @app.route("/api/docs")
+    @app.route("/api/docs", methods=["GET"])
     def api_docs():
         return jsonify({
             "endpoints": {
+                "/ [GET]": "API status and welcome message.",
+                "/api/docs [GET]": "API documentation and endpoint listing.",
                 "/api/species [POST]": "Create a new species entry.",
                 "/api/species [GET]": "List all species with optional sorting.",
                 "/api/species/<species_id> [GET]": "Get details of a specific species.",
@@ -109,8 +122,13 @@ def create_app():
         species = Species(
             common_name=common_name,
             scientific_name=_get_value(data, "scientific_name"),
-            conservation_status=_get_value(data, "conservation_status"),
+            conservation_status=_normalize_conservation_status(
+                _get_value(data, "conservation_status")
+            ),
             population_estimate=_parse_int(_get_value(data, "population_estimate")),
+            height_cm=_parse_float(_get_value(data, "height_cm")),
+            weight_g=_parse_float(_get_value(data, "weight_g")),
+            longevity_years=_parse_int(_get_value(data, "longevity_years")),
             year_of_discovery=_parse_date(_get_value(data, "year_of_discovery")),
             summary=_get_value(data, "summary"),
         )
@@ -122,6 +140,8 @@ def create_app():
 
         author = _resolve_author(data)
         image = _create_image(species, data, image_file, author)
+        if image is None:
+            image = _create_default_image(species)
         if image:
             db.session.add(image)
         if author:
@@ -174,13 +194,24 @@ def create_app():
             species.scientific_name = _get_value(data, "scientific_name")
             changed_fields.append("scientific_name")
         if "conservation_status" in data:
-            species.conservation_status = _get_value(data, "conservation_status")
+            species.conservation_status = _normalize_conservation_status(
+                _get_value(data, "conservation_status")
+            )
             changed_fields.append("conservation_status")
         if "population_estimate" in data:
             species.population_estimate = _parse_int(
                 _get_value(data, "population_estimate")
             )
             changed_fields.append("population_estimate")
+        if "height_cm" in data:
+            species.height_cm = _parse_float(_get_value(data, "height_cm"))
+            changed_fields.append("height_cm")
+        if "weight_g" in data:
+            species.weight_g = _parse_float(_get_value(data, "weight_g"))
+            changed_fields.append("weight_g")
+        if "longevity_years" in data:
+            species.longevity_years = _parse_int(_get_value(data, "longevity_years"))
+            changed_fields.append("longevity_years")
         if "year_of_discovery" in data:
             species.year_of_discovery = _parse_date(
                 _get_value(data, "year_of_discovery")
@@ -215,8 +246,9 @@ def create_app():
     @app.route("/api/species/<string:species_id>", methods=["DELETE"])
     def delete_species(species_id):
         species = Species.query.get_or_404(species_id)
+        default_url = _get_default_image_url()
         for image in species.images:
-            _delete_image_file(image, app.config["UPLOAD_FOLDER"])
+            _delete_image_file(image, app.config["UPLOAD_FOLDER"], default_url)
 
         db.session.delete(species)
         db.session.commit()
@@ -245,6 +277,15 @@ def _parse_int(value):
         return None
     try:
         return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _parse_float(value):
+    if value is None or value == "":
+        return None
+    try:
+        return float(value)
     except (TypeError, ValueError):
         return None
 
@@ -298,6 +339,26 @@ def _attach_taxonomy(species, data):
     return False
 
 
+def _normalize_conservation_status(value):
+    if value is None:
+        return None
+    cleaned = str(value).strip().lower()
+    if not cleaned:
+        return None
+    cleaned = "".join(ch if ch.isalpha() else " " for ch in cleaned)
+    cleaned = " ".join(cleaned.split())
+    mapping = {
+        "least concern": "least_concern",
+        "near threatened": "near_threatened",
+        "vulnerable": "vulnerable",
+        "endangered": "endangered",
+        "critically endangered": "critically_endangered",
+        "extinct in the wild": "extinct_in_the_wild",
+        "extinct": "extinct",
+    }
+    return mapping.get(cleaned, cleaned.replace(" ", "_"))
+
+
 def _resolve_author(data):
     author_data = _get_value(data, "author")
     author_id = _normalize_uuid(_get_value(data, "author_id"))
@@ -348,7 +409,9 @@ def _create_image(species, data, image_file, author):
     return None
 
 
-def _delete_image_file(image, upload_folder):
+def _delete_image_file(image, upload_folder, default_url):
+    if default_url and image.image_url == default_url:
+        return
     if not image.image_url:
         return
     uploads_prefix = "/uploads/"
@@ -370,6 +433,9 @@ def _serialize_species(species):
         "scientific_name": species.scientific_name,
         "conservation_status": species.conservation_status,
         "population_estimate": species.population_estimate,
+        "height_cm": species.height_cm,
+        "weight_g": species.weight_g,
+        "longevity_years": species.longevity_years,
         "year_of_discovery": _format_date(species.year_of_discovery),
         "summary": species.summary,
         "created_at": _format_date(species.created_at),
@@ -420,142 +486,214 @@ def _format_date(value):
     return value.isoformat()
 
 
+def _get_default_image_url():
+    upload_folder = current_app.config.get("UPLOAD_FOLDER")
+    filename = current_app.config.get("DEFAULT_IMAGE_FILENAME")
+    source_path = current_app.config.get("DEFAULT_IMAGE_SOURCE")
+    if not upload_folder or not filename or not source_path:
+        return None
+    if not os.path.exists(source_path):
+        return None
+    os.makedirs(upload_folder, exist_ok=True)
+    target_path = os.path.join(upload_folder, filename)
+    if not os.path.exists(target_path):
+        try:
+            shutil.copyfile(source_path, target_path)
+        except OSError:
+            return None
+    return f"/uploads/{filename}"
+
+
+def _create_default_image(species):
+    default_url = _get_default_image_url()
+    if not default_url:
+        return None
+    return Image(
+        species=species,
+        image_url=default_url,
+        image_alt_text=f"Default image for {species.common_name}",
+    )
+
+
 def _seed_fake_data(count):
     if Species.query.first():
         return False
 
-    random.seed(42)
+    dataset_species = _load_seed_species()
+    if dataset_species:
+        return _seed_from_dataset(dataset_species, count)
 
-    order_names = [
-        "Passeriformes",
-        "Accipitriformes",
-        "Anseriformes",
-        "Strigiformes",
-        "Columbiformes",
-        "Piciformes",
-        "Falconiformes",
-        "Gruiformes",
-        "Charadriiformes",
-        "Apodiformes",
-    ]
-    family_names = [
-        "Muscicapidae",
-        "Accipitridae",
-        "Anatidae",
-        "Strigidae",
-        "Columbidae",
-        "Picidae",
-        "Falconidae",
-        "Rallidae",
-        "Scolopacidae",
-        "Apodidae",
-    ]
-    genus_names = [
-        "Erithacus",
-        "Aquila",
-        "Anas",
-        "Strix",
-        "Columba",
-        "Dendrocopos",
-        "Falco",
-        "Rallus",
-        "Tringa",
-        "Apus",
-    ]
-    conservation = [
-        "Least Concern",
-        "Near Threatened",
-        "Vulnerable",
-        "Endangered",
-    ]
-    continents = ["Europe", "Africa", "Asia", "Americas", "Oceania"]
+    return False
 
-    taxonomies = []
-    for i in range(count):
-        taxonomies.append(
-            Taxonomy(
-                taxonomy_kingdom="Animalia",
-                taxonomy_phylum="Chordata",
-                taxonomy_class="Aves",
-                taxonomy_order=order_names[i % len(order_names)],
-                taxonomy_suborder=f"Suborder {i % 5 + 1}",
-                taxonomy_family=family_names[i % len(family_names)],
-                taxonomy_genus=genus_names[i % len(genus_names)],
+
+def _load_seed_species():
+    seed_path = os.path.join(os.path.dirname(__file__), "seed_species.json")
+    try:
+        with open(seed_path, "r", encoding="utf-8") as handle:
+            payload = json.load(handle)
+    except (OSError, json.JSONDecodeError):
+        return []
+
+    entries = []
+    if isinstance(payload, list):
+        for item in payload:
+            if not isinstance(item, dict):
+                continue
+            common_name = str(item.get("common_name", "")).strip()
+            scientific_name = str(item.get("scientific_name", "")).strip()
+            if not common_name:
+                continue
+            entries.append(
+                {
+                    "common_name": common_name,
+                    "scientific_name": scientific_name or None,
+                    "summary": item.get("summary"),
+                    "conservation_status": item.get("conservation_status"),
+                    "population_estimate": _parse_int(item.get("population_estimate")),
+                    "year_of_discovery": _parse_date(item.get("year_of_discovery")),
+                    "height_cm": _parse_float(item.get("height_cm")),
+                    "weight_g": _parse_float(item.get("weight_g")),
+                    "longevity_years": _parse_int(item.get("longevity_years")),
+                }
             )
-        )
+    return entries
 
-    authors = []
-    for i in range(count):
-        authors.append(
-            Author(
-                author_name=f"Author {i + 1}",
-                author_email=f"author{i + 1}@example.com",
-                author_role="Contributor" if i % 2 == 0 else "Researcher",
-            )
-        )
 
-    countries = []
-    for i in range(count):
-        countries.append(
-            Country(
-                country_name=f"Country {i + 1}",
-                continent_name=continents[i % len(continents)],
-                country_loc={"lat": round(random.uniform(-50, 60), 4), "lng": round(random.uniform(-120, 140), 4)},
-            )
-        )
+def _build_taxonomy_from_scientific(scientific_name):
+    genus = None
+    if scientific_name:
+        genus = scientific_name.split()[0]
+    return Taxonomy(
+        taxonomy_kingdom="Animalia",
+        taxonomy_phylum="Chordata",
+        taxonomy_class="Aves",
+        taxonomy_genus=genus,
+    )
 
-    db.session.add_all(taxonomies + authors + countries)
+
+def _seed_from_dataset(entries, count):
+    author = Author(
+        author_name="Dataset Import",
+        author_email="dataset@example.org",
+        author_role="Data Import",
+    )
+
+    selected = entries[: max(1, min(count, len(entries)))]
+    countries = _seed_countries(len(selected))
+    db.session.add_all([author] + countries)
     db.session.flush()
 
     species_list = []
-    for i in range(count):
+    taxonomies = []
+    for entry in selected:
+        characteristics = _random_characteristics()
+        taxonomy = _build_taxonomy_from_scientific(entry.get("scientific_name"))
+        taxonomies.append(taxonomy)
         species_list.append(
             Species(
-                common_name=f"Bird Species {i + 1}",
-                scientific_name=f"Genus{i + 1} species{i + 1}",
-                conservation_status=conservation[i % len(conservation)],
-                population_estimate=random.randint(1000, 1000000),
-                year_of_discovery=date(1800 + i, 1, 1),
-                summary="Seeded species data for testing.",
-                taxonomy=taxonomies[i % len(taxonomies)],
+                common_name=entry.get("common_name"),
+                scientific_name=entry.get("scientific_name"),
+                conservation_status=_normalize_conservation_status(
+                    entry.get("conservation_status")
+                ),
+                population_estimate=_parse_int(entry.get("population_estimate")),
+                height_cm=entry.get("height_cm", characteristics["height_cm"]),
+                weight_g=entry.get("weight_g", characteristics["weight_g"]),
+                longevity_years=entry.get(
+                    "longevity_years", characteristics["longevity_years"]
+                ),
+                year_of_discovery=_parse_date(entry.get("year_of_discovery")),
+                summary=entry.get("summary")
+                or "Listed in a published bird species checklist dataset.",
+                taxonomy=taxonomy,
             )
         )
 
-    db.session.add_all(species_list)
+    db.session.add_all(taxonomies + species_list)
     db.session.flush()
 
     images = []
     modifications = []
     distributions = []
+    default_url = _get_default_image_url()
 
     for i, species in enumerate(species_list):
-        author = authors[i % len(authors)]
         images.append(
             Image(
                 species=species,
                 author=author,
-                image_url=f"https://example.com/images/bird_{i + 1}.jpg",
-                image_alt_text=f"Sample image for {species.common_name}",
+                image_url=default_url,
+                image_alt_text=f"Default image for {species.common_name}",
             )
         )
         modifications.append(
             Modification(
                 species=species,
                 author=author,
-                modif_fields={"action": "seed", "index": i + 1},
+                modif_fields={
+                    "action": "seed",
+                    "source": "Meeman Biological Station bird list",
+                },
             )
         )
         distributions.append(
             Distribution(
                 species=species,
                 country=countries[i % len(countries)],
-                population_estimate=random.randint(500, 500000),
+                population_estimate=None,
             )
         )
 
     db.session.add_all(images + modifications + distributions)
     db.session.commit()
     return True
+
+
+def _seed_countries(count):
+    country_names = [
+        ("Kenya", "Africa"),
+        ("Tanzania", "Africa"),
+        ("South Africa", "Africa"),
+        ("France", "Europe"),
+        ("Spain", "Europe"),
+        ("Germany", "Europe"),
+        ("Norway", "Europe"),
+        ("United Kingdom", "Europe"),
+        ("United States", "Americas"),
+        ("Canada", "Americas"),
+        ("Brazil", "Americas"),
+        ("Peru", "Americas"),
+        ("Argentina", "Americas"),
+        ("Mexico", "Americas"),
+        ("India", "Asia"),
+        ("China", "Asia"),
+        ("Japan", "Asia"),
+        ("Indonesia", "Asia"),
+        ("Australia", "Oceania"),
+        ("New Zealand", "Oceania"),
+    ]
+    countries = []
+    for i in range(count):
+        name, continent = country_names[i % len(country_names)]
+        countries.append(
+            Country(
+                country_name=name,
+                continent_name=continent,
+                country_loc={
+                    "lat": round(random.uniform(-50, 60), 4),
+                    "lng": round(random.uniform(-120, 140), 4),
+                },
+            )
+        )
+    return countries
+
+
+def _random_characteristics():
+    return {
+        "height_cm": round(random.uniform(10, 160), 1),
+        "weight_g": round(random.uniform(50, 6000), 1),
+        "longevity_years": random.randint(3, 55),
+    }
 
 
 if __name__ == "__main__":

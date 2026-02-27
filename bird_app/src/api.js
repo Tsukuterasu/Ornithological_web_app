@@ -76,3 +76,16 @@ export async function updateSpecies(id, payload, imageFile) {
   });
   return handleResponse(response);
 }
+
+export function resolveImageUrl(imageUrl) {
+  if (!imageUrl) {
+    return "";
+  }
+  if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
+    return imageUrl;
+  }
+  if (imageUrl.startsWith("/")) {
+    return `${API_BASE}${imageUrl}`;
+  }
+  return imageUrl;
+}
