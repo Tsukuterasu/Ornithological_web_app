@@ -587,22 +587,22 @@ def _seed_from_dataset(entries, count):
     taxonomies = []
     for entry in selected:
         characteristics = _random_characteristics()
+        conservation_status = _random_conservation_status()
+        discovery_year = _random_discovery_year()
         taxonomy = _build_taxonomy_from_scientific(entry.get("scientific_name"))
         taxonomies.append(taxonomy)
         species_list.append(
             Species(
                 common_name=entry.get("common_name"),
                 scientific_name=entry.get("scientific_name"),
-                conservation_status=_normalize_conservation_status(
-                    entry.get("conservation_status")
-                ),
+                conservation_status=conservation_status,
                 population_estimate=_parse_int(entry.get("population_estimate")),
                 height_cm=entry.get("height_cm", characteristics["height_cm"]),
                 weight_g=entry.get("weight_g", characteristics["weight_g"]),
                 longevity_years=entry.get(
                     "longevity_years", characteristics["longevity_years"]
                 ),
-                year_of_discovery=_parse_date(entry.get("year_of_discovery")),
+                year_of_discovery=discovery_year,
                 summary=entry.get("summary")
                 or "Listed in a published bird species checklist dataset.",
                 taxonomy=taxonomy,
@@ -694,6 +694,24 @@ def _random_characteristics():
         "weight_g": round(random.uniform(50, 6000), 1),
         "longevity_years": random.randint(3, 55),
     }
+
+
+def _random_conservation_status():
+    statuses = [
+        "least_concern",
+        "near_threatened",
+        "vulnerable",
+        "endangered",
+        "critically_endangered",
+        "extinct_in_the_wild",
+        "extinct",
+    ]
+    return random.choice(statuses)
+
+
+def _random_discovery_year():
+    year = random.randint(1700, 2020)
+    return date(year, 1, 1)
 
 
 if __name__ == "__main__":
