@@ -29,6 +29,7 @@ export async function fetchSpeciesById(id) {
   return handleResponse(response);
 }
 
+// Creation, update and deletion functions
 export async function createSpecies(payload, imageFile) {
   if (imageFile) {
     const formData = new FormData();
@@ -84,6 +85,7 @@ export async function deleteSpecies(id) {
   return handleResponse(response);
 }
 
+//Utility function
 export function resolveImageUrl(imageUrl) {
   if (!imageUrl) {
     return "";

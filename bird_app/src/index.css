@@ -502,6 +502,18 @@ th {
   gap: 20px;
 }
 
+.gallery-link {
+  display: block;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  outline: none;
+}
+
+.gallery-link:focus-visible {
+  box-shadow: 0 0 0 3px #13ec8066;
+}
+
 .action-buttons {
   display: flex;
   flex-direction: column;

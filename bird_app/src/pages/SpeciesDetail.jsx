@@ -145,21 +145,28 @@ function SpeciesDetail() {
             </p>
           </div>
 
-          <div className="detail-section">
-            <h2>Gallery</h2>
-            <div className="directory-grid">
-              {(species.images || []).map((image) => (
-                <div
+            <div className="detail-section">
+              <h2>Gallery</h2>
+              <div className="directory-grid">
+                {(species.images || []).map((image) => (
+                <a
                   key={image.image_id}
-                  className="bird-card-image"
-                  style={{
-                    backgroundImage: `url('${resolveImageUrl(image.image_url)}')`,
-                    borderRadius: "14px",
-                    height: "160px",
-                  }}
-                  title={image.image_alt_text}
-                />
-              ))}
+                  href={resolveImageUrl(image.image_url)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="gallery-link"
+                  title={image.image_alt_text || "Open image"}
+                >
+                  <div
+                    className="bird-card-image"
+                    style={{
+                      backgroundImage: `url('${resolveImageUrl(image.image_url)}')`,
+                      borderRadius: "14px",
+                      height: "160px",
+                    }}
+                  />
+                </a>
+                ))}
               {(!species.images || species.images.length === 0) && (
                 <div className="notice">No images yet for this species.</div>
               )}
