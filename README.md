@@ -62,7 +62,7 @@ The API will run at `http://127.0.0.1:5000`.
 2. Install dependencies:
 
 ```powershell
-cd bird_app
+cd frontend/bird_app
 npm install
 ```
 
@@ -77,7 +77,7 @@ The frontend will run at `http://127.0.0.1:5173`.
 You can also run Vite directly:
 
 ```powershell
-cd bird_app
+cd frontend/bird_app
 npx vite
 ```
 

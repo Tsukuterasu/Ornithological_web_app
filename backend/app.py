@@ -46,7 +46,9 @@ def create_app():
     app.config["MAX_CONTENT_LENGTH"] = 15 * 1024 * 1024
     app.config["DEFAULT_IMAGE_FILENAME"] = os.getenv("DEFAULT_IMAGE_FILENAME", "base_fill.png")
     app.config["DEFAULT_IMAGE_SOURCE"] = os.path.abspath(
-        os.path.join(app.root_path, "..", "bird_app", "assets", "base_fill.png")
+        os.path.join(
+            app.root_path, "..", "frontend", "bird_app", "assets", "base_fill.png"
+        )
     )
 
     os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
