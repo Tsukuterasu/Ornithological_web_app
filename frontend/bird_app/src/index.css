@@ -15,6 +15,13 @@
   box-sizing: border-box;
 }
 
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
 body {
   margin: 0;
   background: var(--background-light);
@@ -211,6 +218,7 @@ a {
   border-radius: 12px;
   padding: 12px 20px;
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -226,6 +234,7 @@ a {
 }
 
 .button-danger {
+  font-size: 16px;
   background: #f05a4a;
   color: #ffffff;
 }
